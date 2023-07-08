@@ -1,0 +1,9 @@
+[core]
+	excludesfile = ~/.gitignore
+
+[user]
+	name = Egor Iskrenkov
+	email = egor@iskrenkov.me
+
+[init]
+	defaultBranch = master
