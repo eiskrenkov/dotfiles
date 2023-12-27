@@ -8,8 +8,8 @@
 # Ignore VS code files
 *.code-workspace
 
-# Ignore rvm config
-.versions.conf
+# Ignore RTX config
+.rtx.toml
 
 # Ignoring direnv file
 .envrc

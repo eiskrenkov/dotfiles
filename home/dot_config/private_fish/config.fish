@@ -1,15 +1,11 @@
-# Load custom config files
-set -l custom_config_files ~/.config/fish/aliases/common.fish \
-                           ~/.config/fish/aliases/git.fish \
-                           ~/.config/fish/aliases/rails.fish \
-                           ~/.config/fish/theme.fish
+# Load aliases
+for file in (find ~/.config/fish/aliases -type f); source $file; end
 
-for file in $custom_config_files; . $file; end
-
-set -e custom_config_files
+# Load theme config
+source ~/.config/fish/theme.fish
 
 # Path
-set PATH $HOME/bin /usr/local/bin /opt/homebrew/bin /opt/homebrew/bin/fish $HOME/.rvm/bin /opt/homebrew/opt/openssl@3/bin $PATH
+set PATH $HOME/bin /usr/local/bin /opt/homebrew/bin /opt/homebrew/bin/fish /opt/homebrew/opt/openssl@3/bin $PATH
 
 # Fish options
 set -g fish_prompt_pwd_dir_length 0
@@ -29,3 +25,9 @@ direnv hook fish | source
 
 # Set fzf options
 set -gx FZF_DEFAULT_OPTS '--height 30% --layout=reverse --border'
+
+# pnpm
+set -gx PNPM_HOME "/Users/eiskrenkov/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
