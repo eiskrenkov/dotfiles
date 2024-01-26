@@ -24,10 +24,12 @@ set -gx PKG_CONFIG_PATH /opt/homebrew/opt/openssl@3/lib/pkgconfig
 direnv hook fish | source
 
 # Set fzf options
-set -gx FZF_DEFAULT_OPTS '--height 30% --layout=reverse --border'
+# set -gx FZF_DEFAULT_OPTS '--height 30% --layout=reverse --border'
 
 # pnpm
 set -gx PNPM_HOME "/Users/eiskrenkov/Library/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
+
+set -gx TMUX_WINDOWIZER_COMMAND "find ~/tds ~/dev -mindepth 1 -maxdepth 1 -type d"

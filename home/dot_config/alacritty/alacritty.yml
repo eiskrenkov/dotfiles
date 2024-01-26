@@ -451,9 +451,9 @@ font:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
 # shell:
-#   program: /opt/homebrew/bin/fish
+#   program: /opt/homebrew/bin/tmux
 # args:
-#   - --login
+#   - new -s dev
 
 # Startup directory
 #
@@ -768,8 +768,25 @@ font:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
-  #- { key: Paste,                                       action: Paste          }
+key_bindings:
+  - { key: T, mods: Command, chars: "\x02\x63" }
+
+  - { key: Key1, mods: Command, chars: "\x021" } # select tmux window 1
+  - { key: Key2, mods: Command, chars: "\x022" } #                ... 2
+  - { key: Key3, mods: Command, chars: "\x023" } #                ... 3
+  - { key: Key4, mods: Command, chars: "\x024" } #                ... 4
+  - { key: Key5, mods: Command, chars: "\x025" } #                ... 5
+  - { key: Key6, mods: Command, chars: "\x026" } #                ... 6
+  - { key: Key7, mods: Command, chars: "\x027" } #                ... 7
+  - { key: Key8, mods: Command, chars: "\x028" } #                ... 8
+  - { key: Key9, mods: Command, chars: "\x029" } #                ... 9
+
+  - { key: D, mods: Command|Shift, chars: "\x02\"" } # split horizontally
+  - { key: R, mods: Command|Shift, chars: "\x02%" } # split vertically
+
+  - { key: W, mods: Command, chars: "\x02x" } # kill the current pane
+
+  # - { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
   #- { key: L,         mods: Control, mode: ~Vi|~Search, chars: "\x0c"          }
@@ -909,4 +926,3 @@ font:
 
   # Highlight window damage information.
   #highlight_damage: false
-
