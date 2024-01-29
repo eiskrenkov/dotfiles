@@ -785,6 +785,7 @@ key_bindings:
   - { key: R, mods: Command|Shift, chars: "\x02%" } # split vertically
 
   - { key: W, mods: Command, chars: "\x02x" } # kill the current pane
+  - { key: P, mods: Command, chars: "\x02\x6f" } # open project selector
 
   # - { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
