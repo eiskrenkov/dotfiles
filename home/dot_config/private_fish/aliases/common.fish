@@ -9,3 +9,6 @@ alias sshconfig="nano ~/.ssh/config"
 
 # Redis CLI
 alias redis="redis-cli"
+
+# Pnpm
+alias pn="pnpm"
