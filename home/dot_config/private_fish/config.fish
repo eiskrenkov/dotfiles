@@ -32,4 +32,4 @@ if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 
-set -gx TMUX_WINDOWIZER_COMMAND "find ~/tds ~/dev -mindepth 1 -maxdepth 1 -type d; echo $CHEZMOI_WORKING_TREE"
+set -gx TMUX_WINDOWIZER_COMMAND "find ~/tds ~/dev -mindepth 1 -maxdepth 1 -type d; echo ~/.local/share/chezmoi"
