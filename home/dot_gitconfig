@@ -7,3 +7,7 @@
 
 [init]
 	defaultBranch = master
+
+[http]
+	lowSpeedLimit = 1
+	lowSpeedTime = 1800

@@ -11,8 +11,8 @@
 # Ignore RVM config
 .versions.conf
 
-# Ignore RTX config
-.rtx.toml
+# Ignore Mise config
+.mise.toml
 
 # Ignoring direnv file
 .envrc
