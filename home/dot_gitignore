@@ -11,6 +11,9 @@
 # Ignore RVM config
 .versions.conf
 
+# IRB history
+.irb-history
+
 # Ignore Mise config
 .mise.toml
 
