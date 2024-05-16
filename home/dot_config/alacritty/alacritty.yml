@@ -768,6 +768,22 @@ font:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
+
+# How to add custom keybindings (based on https://arslan.io/2018/02/05/gpu-accelerated-terminal-alacritty/):
+#
+# 1. Use xxd command
+#   $ xxd -psd
+#     ^Fv
+#     06760a^C
+#
+#   06 -> ctrl-f
+#   76 -> v
+#   0a -> return
+#   ^C -> ctrl-c
+#
+# 2. Add a keybinding to alacritty:
+#   - { key: D, mods: Command, chars: "\x06\x76"  }
+#
 key_bindings:
   - { key: T, mods: Command, chars: "\x02\x63" }
 
@@ -787,6 +803,11 @@ key_bindings:
 
   - { key: W, mods: Command, chars: "\x02x" } # kill the current pane
   - { key: P, mods: Command, chars: "\x02\x6f" } # open project selector
+
+  - { key: Up, mods: Command|Shift, chars: "\x02\x1b\x5b\x41" } # Switch pane up
+  - { key: Right, mods: Command|Shift, chars: "\x02\x1b\x5b\x43" } # Switch pane right
+  - { key: Down, mods: Command|Shift, chars: "\x02\x1b\x5b\x42" } # Switch pane down
+  - { key: Left, mods: Command|Shift, chars: "\x02\x1b\x5b\x44" } # Switch pane left
 
   # - { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
