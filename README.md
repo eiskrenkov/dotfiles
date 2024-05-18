@@ -8,6 +8,12 @@ Managed by https://www.chezmoi.io
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply eiskrenkov
 ```
 
+Apply Brewfile
+
+```sh
+brew bundle install
+```
+
 ## Usage
 
 Start tracking file with chezmoi
