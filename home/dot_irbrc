@@ -1,0 +1,3 @@
+require 'json'
+
+IRB.conf[:USE_AUTOCOMPLETE] = true
