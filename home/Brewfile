@@ -16,7 +16,6 @@ brew "swiftlint"
 brew "neovim"
 brew "jq"
 brew "pnpm"
-brew "terraform"
 
 cask "alt-tab"
 cask "alacritty"
