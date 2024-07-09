@@ -34,4 +34,4 @@ end
 
 set -gx TMUX_WINDOWIZER_COMMAND "find ~/tds ~/dev -mindepth 1 -maxdepth 1 -type d; echo ~/.local/share/chezmoi"
 
-/Users/eiskrenkov/.local/bin/mise activate fish | source
+mise activate fish | source
