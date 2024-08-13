@@ -14,7 +14,15 @@ Apply Brewfile
 brew bundle install
 ```
 
-## Usage
+## Maintenance
+
+Prefill zoxide index
+
+```sh
+zoxide add (find ~/dev -mindepth 1 -maxdepth 1 -type d)
+```
+
+## Chezmoi Usage
 
 Start tracking file with chezmoi
 

@@ -802,7 +802,8 @@ key_bindings:
   - { key: Return, mods: Command|Shift, chars: "\x02\x7a" } # full screen focused pane
 
   - { key: W, mods: Command, chars: "\x02x" } # kill the current pane
-  - { key: P, mods: Command, chars: "\x02\x6f" } # open project selector
+  - { key: O, mods: Command, chars: "\x02\x6f" } # open tmux session selector
+  - { key: P, mods: Command, chars: "\x02\x70" } # open open tmux session selector
 
   - { key: Up, mods: Command|Shift, chars: "\x02\x1b\x5b\x41" } # Switch pane up
   - { key: Right, mods: Command|Shift, chars: "\x02\x1b\x5b\x43" } # Switch pane right

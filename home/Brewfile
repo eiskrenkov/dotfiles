@@ -21,6 +21,7 @@ brew "jdx/tap/usage"
 brew "mise"
 brew "ranger"
 brew "zoxide"
+brew "joshmedeski/sesh/sesh"
 
 cask "alt-tab"
 cask "alacritty"
