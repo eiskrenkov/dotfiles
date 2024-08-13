@@ -20,6 +20,7 @@ brew "1password-cli"
 brew "jdx/tap/usage"
 brew "mise"
 brew "ranger"
+brew "zoxide"
 
 cask "alt-tab"
 cask "alacritty"

@@ -39,3 +39,6 @@ mise activate fish | source
 
 # fzf
 fzf --fish | source
+
+# zoxide
+zoxide init --cmd cd fish | source
