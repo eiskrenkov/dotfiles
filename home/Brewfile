@@ -22,6 +22,7 @@ brew "mise"
 brew "ranger"
 brew "zoxide"
 brew "joshmedeski/sesh/sesh"
+brew "jesseduffield/lazygit/lazygit"
 
 cask "alt-tab"
 cask "alacritty"
