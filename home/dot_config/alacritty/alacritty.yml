@@ -23,7 +23,7 @@
   # available, otherwise `xterm-256color` is used.
   #TERM: alacritty
 
-#window:
+window:
   # Window dimensions (changes require restart)
   #
   # Number of lines/columns (not pixels) in the terminal. Both lines and columns
@@ -79,7 +79,7 @@
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  #startup_mode: Windowed
+  startup_mode: Maximized
 
   # Window title
   #title: Alacritty
@@ -394,16 +394,16 @@ font:
   # When set to `true`, selected text will be copied to the primary clipboard.
   #save_to_clipboard: false
 
-#cursor:
+cursor:
   # Cursor style
-  #style:
+  style:
     # Cursor shape
     #
     # Values for `shape`:
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-    #shape: Block
+    shape: Beam
 
     # Cursor blinking state
     #
@@ -412,7 +412,7 @@ font:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    #blinking: Off
+    blinking: On
 
   # Vi mode cursor style
   #
@@ -450,10 +450,10 @@ font:
 # Default:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
-# shell:
-#   program: /opt/homebrew/bin/tmux
-# args:
-#   - new -s dev
+shell:
+  program: /opt/homebrew/bin/tmux
+args:
+  - new-session -A -s dev
 
 # Startup directory
 #
