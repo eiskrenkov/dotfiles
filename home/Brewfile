@@ -22,7 +22,8 @@ brew "mise"
 brew "ranger"
 brew "zoxide"
 brew "joshmedeski/sesh/sesh"
-brew "jesseduffield/lazygit/lazygit"
+brew "jesseduffield/lazygit/lazygit" # https://github.com/jesseduffield/lazygit
+brew "ripgrep"                       # https://github.com/BurntSushi/ripgrep
 
 cask "alt-tab"
 cask "alacritty"
