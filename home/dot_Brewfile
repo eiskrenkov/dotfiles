@@ -19,7 +19,6 @@ brew "overmind"
 brew "swiftlint"
 brew "neovim"                          # https://github.com/neovim/neovim
 brew "jq"
-brew "pnpm"
 brew "mise"
 brew "ranger"
 brew "zoxide"
