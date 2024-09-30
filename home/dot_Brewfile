@@ -1,0 +1,40 @@
+tap "hashicorp/tap"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/core"
+tap "homebrew/services"
+tap "arl/arl"
+
+brew "awscli"
+brew "chezmoi"
+brew "cmake"
+brew "direnv"
+brew "fish"
+brew "fzf"
+brew "git"
+brew "htop"
+brew "tmux"
+brew "overmind"
+brew "swiftlint"
+brew "neovim"                          # https://github.com/neovim/neovim
+brew "jq"
+brew "pnpm"
+brew "mise"
+brew "ranger"
+brew "zoxide"
+brew "odnoletkov/tap/xcodeproj-format"
+brew "joshmedeski/sesh/sesh"
+brew "jesseduffield/lazygit/lazygit"   # https://github.com/jesseduffield/lazygit
+brew "ripgrep"                         # https://github.com/BurntSushi/ripgrep
+brew "luarocks"                        # https://github.com/luarocks/luarocks
+brew "gitmux"                          # https://github.com/arl/gitmux
+brew "gh"
+brew "k6"
+brew "rbspy"
+
+cask "1password-cli"
+cask "alt-tab"
+cask "alacritty"
+cask "font-hack-nerd-font"
+cask "zed"
