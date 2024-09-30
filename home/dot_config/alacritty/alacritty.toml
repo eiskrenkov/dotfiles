@@ -102,6 +102,11 @@ key = "P"
 mods = "Command"
 
 [[keyboard.bindings]]
+chars = "\u0002g"
+key = "G"
+mods = "Command"
+
+[[keyboard.bindings]]
 chars = "\u0002\u001B[A"
 key = "Up"
 mods = "Command|Shift"
