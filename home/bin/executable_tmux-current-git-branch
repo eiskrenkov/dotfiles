@@ -1,8 +1,0 @@
-#!/bin/bash
-
-path="$1"
-branch=$(git -C $path rev-parse --abbrev-ref HEAD)
-
-if [[ ! -z $branch ]]; then
-  echo " $branch "
-fi
