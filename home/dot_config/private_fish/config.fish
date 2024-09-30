@@ -8,7 +8,8 @@ source ~/.config/fish/theme.fish
 set PATH $HOME/bin /usr/local/bin /opt/homebrew/bin /opt/homebrew/bin/fish /opt/homebrew/opt/openssl@3/bin $PATH
 
 # Fish options
-set -g fish_prompt_pwd_dir_length 0
+set -g fish_prompt_pwd_dir_length 1
+set -g full_length_dirs 1
 
 # Set default language to english
 set -gx LANG en_US
