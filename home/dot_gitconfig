@@ -4,6 +4,7 @@
 [user]
 	name = Egor Iskrenkov
 	email = egor@iskrenkov.me
+	signingkey = ~/.ssh/personal.pub
 
 [init]
 	defaultBranch = master
@@ -11,3 +12,12 @@
 [http]
 	lowSpeedLimit = 1
 	lowSpeedTime = 1800
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
