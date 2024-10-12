@@ -50,6 +50,7 @@ cask "spotify"
 cask "sublime-merge"
 cask "raindropio"
 cask "obsidian"
+cask "telegram"
 
 # Mases
 mas "Paste", id: 967_805_235
