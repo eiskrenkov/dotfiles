@@ -1,11 +1,12 @@
-tap "hashicorp/tap"
 tap "homebrew/bundle"
-tap "homebrew/core"
 tap "homebrew/services"
+
+tap "hashicorp/tap"
 tap "arl/arl"
 tap "joshmedeski/sesh"
 tap "jesseduffield/lazygit"
 
+# Brews
 brew "awscli"
 brew "chezmoi"
 brew "cmake"
@@ -32,6 +33,7 @@ brew "gh"
 brew "k6"
 brew "rbspy"
 
+# Casks
 cask "1password"
 cask "1password-cli"
 cask "alt-tab"
@@ -42,6 +44,13 @@ cask "arc"
 cask "raycast"
 cask "figma"
 cask "istat-menus"
+cask "chatgpt"
+cask "discord"
+cask "spotify"
+cask "sublime-merge"
+cask "raindropio"
 
+# Mases
 mas "Paste", id: 967_805_235
 mas "Xcode", id: 497_799_835
+mas "TestFlight", id: 899_247_664
