@@ -17,6 +17,7 @@ set -gx LANG en_US
 # Set default editor
 set -gx EDITOR /usr/bin/nano
 
+set -gx SHELL $(which fish)
 set -gx LDFLAGS '-L/opt/homebrew/opt/openssl@3/lib'
 set -gx CPPFLAGS '-I/opt/homebrew/opt/openssl@3/include'
 set -gx PKG_CONFIG_PATH /opt/homebrew/opt/openssl@3/lib/pkgconfig
