@@ -1,10 +1,10 @@
 tap "hashicorp/tap"
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
 tap "arl/arl"
+tap "joshmedeski/sesh"
+tap "jesseduffield/lazygit"
 
 brew "awscli"
 brew "chezmoi"
@@ -32,6 +32,7 @@ brew "gh"
 brew "k6"
 brew "rbspy"
 
+cask "1password"
 cask "1password-cli"
 cask "alt-tab"
 cask "alacritty"
@@ -40,3 +41,7 @@ cask "zed"
 cask "arc"
 cask "raycast"
 cask "figma"
+cask "istat-menus"
+
+mas "Paste", id: 967_805_235
+mas "Xcode", id: 497_799_835
