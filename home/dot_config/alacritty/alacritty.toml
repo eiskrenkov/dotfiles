@@ -1,6 +1,6 @@
 [shell]
 args = ["-l", "-i", "-c", "tmux new-session -A -s dev"]
-program = "/bin/zsh"
+program = "/opt/homebrew/bin/fish"
 
 [cursor.style]
 blinking = "On"
