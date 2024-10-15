@@ -52,6 +52,7 @@ cask "raindropio"
 cask "obsidian"
 cask "telegram"
 cask "zoom"
+cask "postman"
 
 # Mases
 mas "Paste", id: 967_805_235
