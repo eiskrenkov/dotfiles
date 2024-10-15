@@ -53,6 +53,8 @@ cask "obsidian"
 cask "telegram"
 cask "zoom"
 cask "postman"
+cask "orbstack"
+cask "bartender"
 
 # Mases
 mas "Paste", id: 967_805_235
