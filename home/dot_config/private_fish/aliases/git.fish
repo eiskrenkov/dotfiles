@@ -24,7 +24,7 @@ alias gcmsg='git commit -m'
 # gcam is a function
 
 # Checkout
-alias gcm='git checkout master'
+alias gcm='git checkout $(main_branch)'
 alias gcb='git checkout -b'
 alias gco='git checkout'
 alias gba='git branch -a'
@@ -33,7 +33,7 @@ alias gbD='git branch -D'
 
 # Rebase
 alias grb='git rebase'
-alias grbm='git rebase master'
+alias grbm='git rebase $(main_branch)'
 alias grba='git rebase --abort'
 alias grbc='git rebase --continue'
 alias grbi='git rebase -i'
