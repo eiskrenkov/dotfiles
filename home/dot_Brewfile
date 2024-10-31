@@ -55,8 +55,10 @@ cask "zoom"
 cask "postman"
 cask "orbstack"
 cask "bartender"
+cask "github-copilot-for-xcode"
 
 # Mases
 mas "Paste", id: 967_805_235
 mas "Xcode", id: 497_799_835
 mas "TestFlight", id: 899_247_664
+mas "Apple Developer", id: 640_199_958
