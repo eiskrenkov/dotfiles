@@ -57,6 +57,7 @@ cask "orbstack"
 cask "bartender"
 cask "github-copilot-for-xcode"
 cask "sf-symbols"
+cask "cursor"
 
 # Mases
 mas "Paste", id: 967_805_235
