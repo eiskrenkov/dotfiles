@@ -26,7 +26,6 @@ alias gcmsg='git commit -m'
 # Checkout
 alias gcm='git checkout $(main_branch)'
 alias gcb='git checkout -b'
-alias gco='git checkout'
 alias gba='git branch -a'
 alias gbd='git branch -d'
 alias gbD='git branch -D'
