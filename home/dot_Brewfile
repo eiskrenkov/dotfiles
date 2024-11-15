@@ -32,6 +32,7 @@ brew "gitmux"                          # https://github.com/arl/gitmux
 brew "gh"
 brew "k6"
 brew "rbspy"
+brew "mysql-client@8.4"
 
 # Casks
 cask "1password"
