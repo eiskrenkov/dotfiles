@@ -1,4 +1,4 @@
-[shell]
+[terminal.shell]
 args = ["-l", "-i", "-c", "tmux new-session -A -s dev"]
 program = "/opt/homebrew/bin/fish"
 
