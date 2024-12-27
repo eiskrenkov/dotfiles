@@ -1,3 +1,5 @@
+def personal? = (File.read(File.expand_path("~/.machineid")).strip rescue "") == "personal"
+
 tap "homebrew/bundle"
 tap "homebrew/services"
 
@@ -17,13 +19,13 @@ brew "git"
 brew "htop"
 brew "tmux"
 brew "overmind"
-brew "swiftlint"
+brew "swiftlint" if personal?
 brew "neovim"                          # https://github.com/neovim/neovim
 brew "jq"
 brew "mise"
 brew "ranger"
 brew "zoxide"
-brew "odnoletkov/tap/xcodeproj-format"
+brew "odnoletkov/tap/xcodeproj-format" if personal?
 brew "joshmedeski/sesh/sesh"
 brew "jesseduffield/lazygit/lazygit"   # https://github.com/jesseduffield/lazygit
 brew "ripgrep"                         # https://github.com/BurntSushi/ripgrep
@@ -56,12 +58,16 @@ cask "zoom"
 cask "postman"
 cask "orbstack"
 cask "bartender"
-cask "github-copilot-for-xcode"
-cask "sf-symbols"
+cask "github-copilot-for-xcode" if personal?
+cask "sf-symbols" if personal?
 cask "cursor"
+cask "ghostty"
 
 # Mases
 mas "Paste", id: 967_805_235
-mas "Xcode", id: 497_799_835
-mas "TestFlight", id: 899_247_664
-mas "Apple Developer", id: 640_199_958
+
+if personal?
+  mas "Xcode", id: 497_799_835
+  mas "TestFlight", id: 899_247_664
+  mas "Apple Developer", id: 640_199_958
+end
