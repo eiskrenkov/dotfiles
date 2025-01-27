@@ -1,0 +1,65 @@
+initial-command = /bin/zsh -l -i -c "tmux new-session -A -s main"
+command         = /bin/zsh -l -i -c "tmux new-session -A -s main"
+
+confirm-close-surface = false
+
+window-colorspace = display-p3
+
+font-family = "TX-02"
+font-size    = 14
+font-thicken = true
+
+adjust-cell-width = -1%
+
+# Send ^B + c on Cmd+T
+keybind = cmd+t=text:\x02c
+
+# Send ^B + 1 on Cmd+1
+keybind = cmd+1=text:\x021
+keybind = cmd+2=text:\x022
+keybind = cmd+3=text:\x023
+keybind = cmd+4=text:\x024
+keybind = cmd+5=text:\x025
+keybind = cmd+6=text:\x026
+keybind = cmd+7=text:\x027
+keybind = cmd+8=text:\x028
+keybind = cmd+9=text:\x029
+
+# Send ^B + " on Cmd+Shift+D
+keybind = cmd+shift+d=text:\x02\"
+
+# Send ^B + % on Cmd+Shift+R
+keybind = cmd+shift+r=text:\x02%
+
+# Send ^B + z on Cmd+Shift+Enter
+keybind = cmd+shift+enter=text:\x02z
+
+# Send ^B + x on Cmd+W
+keybind = cmd+w=text:\x02x
+
+# Send ^B + o on Cmd+O
+keybind = cmd+o=text:\x02o
+
+# Send ^B + p on Cmd+P
+keybind = cmd+p=text:\x02p
+
+# Send ^B + g on Cmd+G
+keybind = cmd+g=text:\x02g
+
+# Send ^B + ESC [A on Cmd+Shift+Up
+keybind = cmd+shift+up=text:\x02\x1B[A
+
+# Send ^B + ESC [C on Cmd+Shift+Right
+keybind = cmd+shift+right=text:\x02\x1B[C
+
+# Send ^B + ESC [B on Cmd+Shift+Down
+keybind = cmd+shift+down=text:\x02\x1B[B
+
+# Send ^B + ESC [D on Cmd+Shift+Left
+keybind = cmd+shift+left=text:\x02\x1B[D
+
+# Send ^B + / on Cmd+F for forward search
+keybind = cmd+f=text:\x02/
+
+# Send ^B + ? on Cmd+Shift+F for backward search
+keybind = cmd+shift+f=text:\x02?
