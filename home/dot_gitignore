@@ -16,6 +16,7 @@
 
 # Ignore Mise config
 .mise.toml
+mise.toml
 
 # Ignoring direnv file
 .envrc
