@@ -35,6 +35,8 @@ brew "gh"
 brew "k6"
 brew "rbspy"
 brew "mysql-client@8.4"
+brew "zellij"
+brew "watchman"
 
 # Casks
 cask "1password"
