@@ -381,8 +381,9 @@ set -g history-limit 10000
 # start with mouse mode enabled
 set -g mouse on
 
-# Reload tmux config
-bind r source-file ~/.config/tmux/tmux.conf \; display "tmux has been reloaded!"
+# force Vi mode
+set -g status-keys vi
+set -g mode-keys vi
 
 # sesh tmux session manager
 bind-key "p" run-shell "sesh connect \"$(
