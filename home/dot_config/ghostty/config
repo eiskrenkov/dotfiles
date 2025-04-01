@@ -9,7 +9,7 @@ font-family = "TX-02"
 font-size    = 14
 font-thicken = true
 
-adjust-cell-width = -1%
+mouse-hide-while-typing = true
 
 # Send ^B + c on Cmd+T
 keybind = cmd+t=text:\x02c
