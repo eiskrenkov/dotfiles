@@ -9,8 +9,13 @@
   {
     "context": "Workspace",
     "bindings": {
-          "cmd-shift-j": "project_panel::ToggleFocus"
-        }
+      "cmd-shift-j": "project_panel::ToggleFocus",
+      "cmd-r": "task::Spawn",
+      "cmd-shift-m": [
+        "task::Spawn",
+        { "task_name": "Open Current project in Sublime Merge" }
+      ]
+    }
   },
   {
     "context": "Editor",
