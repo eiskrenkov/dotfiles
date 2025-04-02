@@ -1,0 +1,15 @@
+// Static tasks configuration.
+[
+  {
+    "label": "Open Latest Rails Migration",
+    "command": "zed $(find db/migrate -type f | sort -r | head -n 1)",
+    "reveal": "never",
+    "hide": "on_success"
+  },
+  {
+    "label": "Open Current project in Sublime Merge",
+    "command": "smerge .",
+    "reveal": "never",
+    "hide": "on_success"
+  }
+]
