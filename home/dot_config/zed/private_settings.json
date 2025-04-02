@@ -8,9 +8,9 @@
 // from the command palette or from `Zed` application menu.
 {
   "features": {
-    "edit_prediction_provider": "zed"
+    "edit_prediction_provider": "copilot"
   },
-  "theme": "monokai (Filter Octagon)",
+  "theme": "Ayu Mirage",
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
@@ -30,6 +30,24 @@
   "preferred_line_length": 120,
   "tab_size": 2,
   // "dock": "right",
+  "tabs": {
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true,
+    "activate_on_close": "history",
+    "show_close_button": "hover",
+    "show_diagnostics": "all"
+  },
+  "tab_bar": {
+    "show": true,
+    "show_nav_history_buttons": true,
+    "show_tab_bar_buttons": false
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": false,
+    "selections_menu": true
+  },
   "languages": {
     "Ruby": {
       "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."]
@@ -45,5 +63,8 @@
     }
   },
   "scroll_beyond_last_line": "off",
+  "scrollbar": {
+    "show": "system"
+  },
   "format_on_save": "off"
 }
