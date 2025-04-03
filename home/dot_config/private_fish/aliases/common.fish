@@ -12,3 +12,6 @@ alias redis="redis-cli"
 
 # Pnpm
 alias pn="pnpm"
+
+# Zed
+alias zed="zed-preview"
