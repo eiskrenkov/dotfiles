@@ -7,8 +7,14 @@
     "hide": "on_success"
   },
   {
-    "label": "Open Current project in Sublime Merge",
+    "label": "Open current project in Sublime Merge",
     "command": "smerge .",
+    "reveal": "never",
+    "hide": "on_success"
+  },
+  {
+    "label": "Open current file history in Sublime Merge",
+    "command": "smerge search 'file:$ZED_FILE'",
     "reveal": "never",
     "hide": "on_success"
   }
