@@ -14,8 +14,14 @@
   },
   {
     "label": "Open current file history in Sublime Merge",
-    "command": "smerge search 'file:$ZED_FILE'",
+    "command": "smerge search 'file:\"$ZED_FILE\"'",
     "reveal": "never",
     "hide": "on_success"
+  },
+  {
+    "label": "Lookup RSpec file for the current file",
+    "command": "zed $(echo \"$ZED_FILE\" | sed -E 's#^(.*/)?app/#\\1spec/#; s#\\.rb$#_spec.rb#')",
+    "reveal": "never",
+    "hide": "never"
   }
 ]

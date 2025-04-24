@@ -13,7 +13,7 @@
       "cmd-r": "task::Spawn",
       "cmd-shift-m": [
         "task::Spawn",
-        { "task_name": "Open Current project in Sublime Merge" }
+        { "task_name": "Open current project in Sublime Merge" }
       ]
     }
   },
@@ -23,7 +23,12 @@
       "cmd-i": "assistant::InlineAssist",
       "cmd-j": "editor::GoToDefinition",
       "cmd-shift-r": "pane::SplitRight",
-      "cmd-shift-d": "pane::SplitDown"
+      "cmd-shift-d": "pane::SplitDown",
+      "alt-f12": "editor::GoToDefinition",
+      "cmd-shift-s": [
+        "task::Spawn",
+        { "task_name": "Lookup RSpec file for the current file" }
+      ]
     }
   },
   {
