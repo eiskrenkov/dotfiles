@@ -4,3 +4,6 @@ terraform = "1.9.0"
 pnpm = "9.12.3"
 node = "22.5.1"
 rust = "1.85.1"
+
+[settings]
+idiomatic_version_file_enable_tools = ["ruby"]
