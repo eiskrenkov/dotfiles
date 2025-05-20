@@ -14,12 +14,12 @@
     "mode": "subtle"
   },
   "theme": "Ayu Mirage",
-  "assistant": {
+  "agent": {
+    "default_profile": "ask",
     "inline_assistant_model": {
       "provider": "zed.dev",
       "model": "claude-3-7-sonnet-latest"
     },
-    "enable_experimental_live_diffs": true,
     "default_model": {
       "provider": "zed.dev",
       "model": "claude-3-7-sonnet-latest"
@@ -37,7 +37,6 @@
   "wrap_guides": [120],
   "preferred_line_length": 120,
   "tab_size": 2,
-  // "dock": "right",
   "tabs": {
     "close_position": "right",
     "file_icons": true,
