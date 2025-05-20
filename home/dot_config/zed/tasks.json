@@ -19,9 +19,21 @@
     "hide": "on_success"
   },
   {
-    "label": "Lookup RSpec file for the current file",
-    "command": "zed $(echo \"$ZED_FILE\" | sed -E 's#^(.*/)?app/#\\1spec/#; s#\\.rb$#_spec.rb#')",
+    "label": "Lookup RSpec file for current file",
+    "command": "touch $(echo \"$ZED_FILE\" | sed -E 's#^(.*/)?app/#\\1spec/#; s#\\.rb$#_spec.rb#') && zed $(echo \"$ZED_FILE\" | sed -E 's#^(.*/)?app/#\\1spec/#; s#\\.rb$#_spec.rb#')",
     "reveal": "never",
+    "hide": "always"
+  },
+  {
+    "label": "Run RSpec for current file",
+    "command": "bundle exec rspec $ZED_FILE",
+    "reveal": "always",
     "hide": "never"
+  },
+  {
+    "label": "Reveal current file in GitHub",
+    "command": "gh browse $ZED_RELATIVE_FILE",
+    "reveal": "never",
+    "hide": "always"
   }
 ]
