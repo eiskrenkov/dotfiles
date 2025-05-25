@@ -1,0 +1,107 @@
+{
+    // Workbench
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "One Monokai",
+    "javascript.suggest.autoImports": true,
+    // Editor
+    "editor.fontSize": 13,
+    "editor.fontVariations": false,
+    "editor.cursorBlinking": "solid",
+    "editor.fontFamily": "Menlo",
+    "editor.fontWeight": "normal",
+    "editor.minimap.renderCharacters": false,
+    "editor.mouseWheelScrollSensitivity": 0.6,
+    "editor.scrollBeyondLastLine": false,
+    "editor.scrollbar.verticalScrollbarSize": 10,
+    "editor.scrollbar.horizontalScrollbarSize": 10,
+    "editor.smoothScrolling": true,
+    "editor.tabSize": 2,
+    "editor.inlineSuggest.enabled": true,
+    "editor.rulers": [
+      120
+    ],
+    "editor.emptySelectionClipboard": false,
+    "editor.find.seedSearchStringFromSelection": "never",
+    "editor.lightbulb.enabled": "off",
+    // Terminal
+    "terminal.integrated.profiles.osx": {
+      "fish": {
+        "path": "/opt/homebrew/bin/fish",
+        "args": [
+          "-l"
+        ]
+      },
+      "zsh": {
+        "path": "/bin/zsh",
+        "args": [
+          "-l"
+        ]
+      }
+    },
+    "terminal.integrated.defaultProfile.osx": "fish",
+    "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+    // Files
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    // Window
+    "window.commandCenter": true,
+    "window.nativeTabs": true,
+    "window.openFoldersInNewWindow": "on",
+    "window.newWindowDimensions": "inherit",
+    // Search
+    "search.mode": "reuseEditor",
+    // Other
+    "security.workspace.trust.untrustedFiles": "open",
+    "workbench.productIconTheme": "macos-modern",
+    "explorer.confirmDragAndDrop": false,
+    // Copilot
+    "github.copilot.enable": {
+      "*": true,
+      "yaml": false,
+      "plaintext": true,
+      "markdown": false,
+      "scminput": false
+    },
+    // GitLens
+    "gitlens.codeLens.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.statusBar.enabled": false,
+    "rubyLsp.enableExperimentalFeatures": false,
+    "rubyLsp.enabledFeatures": {
+      "codeActions": true,
+      "diagnostics": true,
+      "documentHighlights": true,
+      "documentLink": true,
+      "documentSymbols": true,
+      "foldingRanges": true,
+      "formatting": true,
+      "hover": true,
+      "inlayHint": true,
+      "onTypeFormatting": true,
+      "selectionRanges": true,
+      "semanticHighlighting": true,
+      "completion": true
+    },
+    "[ruby]": {
+      // "editor.defaultFormatter": "rebornix.ruby",
+      "editor.formatOnSave": false,
+      "editor.formatOnType": true,
+      "editor.insertSpaces": true,
+      "editor.semanticHighlighting.enabled": true
+    },
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.find.addExtraSpaceOnTop": false,
+    "editor.formatOnPaste": true,
+    "editor.minimap.autohide": true,
+    "files.trimFinalNewlines": true,
+    "githubPullRequests.pullBranch": "never",
+    "gitblame.inlineMessageEnabled": false,
+    "editor.accessibilitySupport": "off",
+    "workbench.activityBar.location": "hidden",
+    "rubyLsp.rubyVersionManager": {
+      "identifier": "mise"
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "window.customTitleBarVisibility": "never",
+    "redhat.telemetry.enabled": true
+  }
