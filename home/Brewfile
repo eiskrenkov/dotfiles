@@ -19,13 +19,11 @@ brew "git"
 brew "htop"
 brew "tmux"
 brew "overmind"
-brew "swiftlint" if personal?
 brew "neovim"                          # https://github.com/neovim/neovim
 brew "jq"
 brew "mise"
 brew "ranger"
 brew "zoxide"
-brew "odnoletkov/tap/xcodeproj-format" if personal?
 brew "joshmedeski/sesh/sesh"
 brew "jesseduffield/lazygit/lazygit"   # https://github.com/jesseduffield/lazygit
 brew "ripgrep"                         # https://github.com/BurntSushi/ripgrep
@@ -38,6 +36,12 @@ brew "mysql-client@8.4"
 brew "zellij"
 brew "watchman"
 brew "uv"
+
+if personal?
+  brew "swiftlint"
+  brew "odnoletkov/tap/xcodeproj-format"
+  brew "xcodesorg/made/xcodes"
+end
 
 # Casks
 cask "1password"
