@@ -72,6 +72,7 @@ cask "ghostty"
 
 # Mases
 mas "Paste", id: 967_805_235
+mas "Perplexity", id: 6_714_467_650
 
 if personal?
   mas "Xcode", id: 497_799_835
