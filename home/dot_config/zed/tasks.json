@@ -35,5 +35,11 @@
     "command": "gh browse $ZED_RELATIVE_FILE",
     "reveal": "never",
     "hide": "always"
+  },
+  {
+    "label": "Copy current Rails migration timestamp",
+    "command": "echo (basename \"$ZED_FILE\" | cut -d'_' -f1) | pbcopy",
+    "reveal": "never",
+    "hide": "always"
   }
 ]
