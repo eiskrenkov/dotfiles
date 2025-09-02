@@ -1,24 +1,28 @@
 [terminal.shell]
-args = ["-l", "-i", "-c", "tmux new-session -A -s dev"]
+args = ["-l", "-i", "-c", "tmux new-session -A -s main"]
 program = "/opt/homebrew/bin/fish"
+
+[env]
+TERM = "alacritty"
 
 [cursor.style]
 blinking = "On"
 shape = "Beam"
 
 [font]
-size = 13.0
+builtin_box_drawing = true
+size = 14.0
 
 [font.bold]
-family = "Hack Nerd Font Mono"
+family = "TX-02"
 style = "Bold"
 
 [font.italic]
-family = "Hack Nerd Font Mono"
+family = "TX-02"
 style = "Italic"
 
 [font.normal]
-family = "Hack Nerd Font Mono"
+family = "TX-02"
 style = "Regular"
 
 [[keyboard.bindings]]
@@ -128,6 +132,44 @@ mods = "Command|Shift"
 
 [window]
 startup_mode = "Maximized"
+decorations = "none"
+dynamic_padding = true
+padding.x = 4
+
+#
+# Ghostty theme
+#
+[colors.primary]
+foreground = "#ffffff"
+background = "#282c34"
+
+[colors.cursor]
+cursor = "#ffffff"
+text = "#363a43"  # Ghostty's cursor-text
+
+[colors.selection]
+background = "#ffffff"
+text = "#292c33"  # Ghostty default selection-foreground matches background
+
+[colors.normal]
+black   = "#1d1f21" # palette 0
+red     = "#bf6b69" # palette 1
+green   = "#b7bd73" # palette 2
+yellow  = "#e9c880" # palette 3
+blue    = "#88a1bb" # palette 4
+magenta = "#ad95b8" # palette 5
+cyan    = "#95bdb7" # palette 6
+white   = "#c5c8c6" # palette 7
+
+[colors.bright]
+black   = "#666666" # palette 8
+red     = "#c55757" # palette 9
+green   = "#bcc95f" # palette 10
+yellow  = "#e1c65e" # palette 11
+blue    = "#83a5d6" # palette 12
+magenta = "#bc99d4" # palette 13
+cyan    = "#83beb1" # palette 14
+white   = "#eaeaea" # palette 15
 
 #
 # Colors
@@ -135,44 +177,44 @@ startup_mode = "Maximized"
 # Default Alacritty 0.12 color scheme
 # https://github.com/alacritty/alacritty/blob/v0.12.3/alacritty/src/config/color.rs
 #
-[colors.primary]
-foreground = "#c5c8c6"
-background = "#1d1f21"
+# [colors.primary]
+# foreground = "#c5c8c6"
+# background = "#1d1f21"
 
-[colors.normal]
-black = "#1d1f21"
-red = "#cc6666"
-green = "#b5bd68"
-yellow = "#f0c674"
-blue = "#81a2be"
-magenta = "#b294bb"
-cyan = "#8abeb7"
-white = "#c5c8c6"
+# [colors.normal]
+# black = "#1d1f21"
+# red = "#cc6666"
+# green = "#b5bd68"
+# yellow = "#f0c674"
+# blue = "#81a2be"
+# magenta = "#b294bb"
+# cyan = "#8abeb7"
+# white = "#c5c8c6"
 
-[colors.bright]
-black = "#666666"
-red = "#d54e53"
-green = "#b9ca4a"
-yellow = "#e7c547"
-blue = "#7aa6da"
-magenta = "#c397d8"
-cyan = "#70c0b1"
-white = "#eaeaea"
+# [colors.bright]
+# black = "#666666"
+# red = "#d54e53"
+# green = "#b9ca4a"
+# yellow = "#e7c547"
+# blue = "#7aa6da"
+# magenta = "#c397d8"
+# cyan = "#70c0b1"
+# white = "#eaeaea"
 
-[colors.dim]
-black = "#131415"
-red = "#864343"
-green = "#777c44"
-yellow = "#9e824c"
-blue = "#556a7d"
-magenta = "#75617b"
-cyan = "#5b7d78"
-white = "#828482"
+# [colors.dim]
+# black = "#131415"
+# red = "#864343"
+# green = "#777c44"
+# yellow = "#9e824c"
+# blue = "#556a7d"
+# magenta = "#75617b"
+# cyan = "#5b7d78"
+# white = "#828482"
 
-[colors.hints]
-start = { foreground = "#1d1f21", background = "#e9ff5e" }
-end = { foreground = "#e9ff5e", background = "#1d1f21" }
+# [colors.hints]
+# start = { foreground = "#1d1f21", background = "#e9ff5e" }
+# end = { foreground = "#e9ff5e", background = "#1d1f21" }
 
-[colors.search]
-matches = { foreground = "#000000", background = "#ffffff" }
-focused_match = { foreground = "#ffffff", background = "#000000" }
+# [colors.search]
+# matches = { foreground = "#000000", background = "#ffffff" }
+# focused_match = { foreground = "#ffffff", background = "#000000" }
