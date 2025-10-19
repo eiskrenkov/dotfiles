@@ -69,6 +69,7 @@ cask "github-copilot-for-xcode" if personal?
 cask "sf-symbols" if personal?
 cask "cursor"
 cask "ghostty"
+cask "claude"
 
 # Mases
 mas "Paste", id: 967_805_235
