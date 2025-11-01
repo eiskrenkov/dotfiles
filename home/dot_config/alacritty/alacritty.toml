@@ -132,7 +132,7 @@ mods = "Command|Shift"
 
 [window]
 startup_mode = "Maximized"
-decorations = "none"
+decorations = "full"
 dynamic_padding = true
 padding.x = 4
 
