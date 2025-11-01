@@ -70,6 +70,7 @@ cask "sf-symbols" if personal?
 cask "cursor"
 cask "ghostty"
 cask "claude"
+cask "claude-code"
 
 # Mases
 mas "Paste", id: 967_805_235
