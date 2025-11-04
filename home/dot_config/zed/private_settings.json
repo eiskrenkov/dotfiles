@@ -11,7 +11,7 @@
     "edit_prediction_provider": "copilot"
   },
   "edit_predictions": {
-    "mode": "subtle"
+    "mode": "eager"
   },
   "theme": "Ayu Mirage",
   "agent": {
