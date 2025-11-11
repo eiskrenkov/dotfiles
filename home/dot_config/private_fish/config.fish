@@ -14,9 +14,6 @@ set -g full_length_dirs 1
 # Hook direnv
 direnv hook fish | source
 
-# Mise
-mise activate fish | source
-
 # fzf
 fzf --fish | source
 
