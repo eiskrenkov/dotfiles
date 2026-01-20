@@ -21,3 +21,6 @@ mise.local.toml
 
 # Ignoring direnv file
 .envrc
+
+# Claude code
+.claude/
