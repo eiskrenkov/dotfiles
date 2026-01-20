@@ -71,6 +71,7 @@ cask "cursor"
 cask "ghostty"
 cask "claude"
 cask "claude-code"
+cask "keybase" unless personal?
 
 # Mases
 mas "Paste", id: 967_805_235
