@@ -72,6 +72,8 @@ cask "ghostty"
 cask "claude"
 cask "claude-code"
 cask "keybase" unless personal?
+cask "chromium" if personal?
+cask "steipete/tap/codexbar" if personal?
 
 # Mases
 mas "Paste", id: 967_805_235
