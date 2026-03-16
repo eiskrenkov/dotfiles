@@ -57,9 +57,3 @@ keybind = cmd+shift+down=text:\x02\x1B[B
 
 # Send ^B + ESC [D on Cmd+Shift+Left
 keybind = cmd+shift+left=text:\x02\x1B[D
-
-# Send ^B + / on Cmd+F for forward search
-keybind = cmd+f=text:\x02/
-
-# Send ^B + ? on Cmd+Shift+F for backward search
-keybind = cmd+shift+f=text:\x02?
