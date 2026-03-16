@@ -1,0 +1,26 @@
+{
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "ruby-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/status-line"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/eiskrenkov/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
