@@ -77,11 +77,11 @@ cask "chromium" if personal?
 cask "steipete/tap/codexbar" if personal?
 
 # Mases
-mas "Paste", id: 967_805_235
-mas "Perplexity", id: 6_714_467_650
+# mas "Paste", id: 967_805_235
+# mas "Perplexity", id: 6_714_467_650
 
-if personal?
-  mas "Xcode", id: 497_799_835
-  mas "TestFlight", id: 899_247_664
-  mas "Apple Developer", id: 640_199_958
-end
+# if personal?
+#   mas "Xcode", id: 497_799_835
+#   mas "TestFlight", id: 899_247_664
+#   mas "Apple Developer", id: 640_199_958
+# end
