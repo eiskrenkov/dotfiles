@@ -6,6 +6,26 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
+  "permissions": {
+    "allow": [
+      "bash(bundle exec rubocop:*)",
+      "bash(bundle exec rspec:*)",
+      "bash(bundle exec tds-danger run:*)",
+      "bash(bundle exec rails runner:*)",
+      "bash(grep:*)",
+      "bash(find:*)",
+      "mcp__atlassian__getjiraissue",
+      "mcp__atlassian__getaccessibleatlassianresources",
+      "bash(xargs:*)",
+      "bash(ls:*)",
+      "bash(bin/rails zeitwerk:check)",
+      "bash(git ls-tree:*)",
+      "bash(bundle exec ruby:*)",
+      "bash(bundle exec rake:*)",
+      "bash(bundle info:*)",
+      "bash(bundle show:*)"
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/status-line"
