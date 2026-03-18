@@ -5,8 +5,8 @@ tap "homebrew/services"
 
 tap "hashicorp/tap"
 tap "arl/arl"
-tap "joshmedeski/sesh"
 tap "jesseduffield/lazygit"
+tap "glebglazov/tap"
 
 # Brews
 brew "awscli"
@@ -19,16 +19,15 @@ brew "git"
 brew "htop"
 brew "tmux"
 brew "overmind"
-brew "neovim"                          # https://github.com/neovim/neovim
+brew "neovim"                             # https://github.com/neovim/neovim
 brew "jq"
 brew "mise"
 brew "ranger"
 brew "zoxide"
-brew "joshmedeski/sesh/sesh"
-brew "jesseduffield/lazygit/lazygit"   # https://github.com/jesseduffield/lazygit
-brew "ripgrep"                         # https://github.com/BurntSushi/ripgrep
-brew "luarocks"                        # https://github.com/luarocks/luarocks
-brew "gitmux"                          # https://github.com/arl/gitmux
+brew "jesseduffield/lazygit/lazygit"      # https://github.com/jesseduffield/lazygit
+brew "ripgrep"                            # https://github.com/BurntSushi/ripgrep
+brew "luarocks"                           # https://github.com/luarocks/luarocks
+brew "gitmux"                             # https://github.com/arl/gitmux
 brew "gh"
 brew "k6"
 brew "rbspy"
@@ -36,7 +35,8 @@ brew "mysql-client@8.4"
 brew "zellij"
 brew "watchman"
 brew "uv"
-brew "rtk"                             # https://github.com/rtk-ai/rtk
+brew "rtk"                                # https://github.com/rtk-ai/rtk
+brew "glebglazov/tap/pop", args: ["HEAD"] # https://github.com/glebglazov/pop
 
 if personal?
   brew "swiftlint"
