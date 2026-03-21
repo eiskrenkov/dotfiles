@@ -41,7 +41,7 @@ brew "opencode"
 
 if personal?
   brew "swiftlint"
-  brew "odnoletkov/tap/xcodeproj-format"
+  # brew "odnoletkov/tap/xcodeproj-format"
   brew "xcodesorg/made/xcodes"
 end
 

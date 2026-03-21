@@ -1,35 +1,25 @@
 {
-  "model": "opus[1m]",
-  "enabledPlugins": {
-    "ruby-lsp@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
-  "skipDangerousModePermissionPrompt": true,
   "permissions": {
     "allow": [
-      "bash(bundle exec rubocop:*)",
-      "bash(bundle exec rspec:*)",
-      "bash(bundle exec tds-danger run:*)",
-      "bash(bundle exec rails runner:*)",
-      "bash(grep:*)",
-      "bash(find:*)",
+      "Bash(bundle exec rubocop:*)",
+      "Bash(bundle exec rspec:*)",
+      "Bash(bundle exec tds-danger run:*)",
+      "Bash(bundle exec rails runner:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
       "mcp__atlassian__getjiraissue",
       "mcp__atlassian__getaccessibleatlassianresources",
-      "bash(xargs:*)",
-      "bash(ls:*)",
-      "bash(bin/rails zeitwerk:check)",
-      "bash(git ls-tree:*)",
-      "bash(bundle exec ruby:*)",
-      "bash(bundle exec rake:*)",
-      "bash(bundle info:*)",
-      "bash(bundle show:*)"
+      "Bash(xargs:*)",
+      "Bash(ls:*)",
+      "Bash(bin/rails zeitwerk:check)",
+      "Bash(git ls-tree:*)",
+      "Bash(bundle exec ruby:*)",
+      "Bash(bundle exec rake:*)",
+      "Bash(bundle info:*)",
+      "Bash(bundle show:*)"
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/status-line"
-  },
+  "model": "opus[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -53,5 +43,16 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/status-line"
+  },
+  "enabledPlugins": {
+    "ruby-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true
 }
