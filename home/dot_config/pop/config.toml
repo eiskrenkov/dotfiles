@@ -1,0 +1,24 @@
+exclude_current_session = false
+exclude_current_dir = false
+disambiguation_strategy = ""
+quick_access_modifier = ""
+
+[[projects]]
+  path = "~/tds"
+  display_depth = 1
+
+[[projects]]
+  path = "~/dev"
+  display_depth = 1
+
+[[projects]]
+  path = "~/tds/*"
+  display_depth = 1
+
+[[projects]]
+  path = "~/dev/*"
+  display_depth = 1
+
+[[projects]]
+  path = "~/.local/share/chezmoi"
+  display_depth = 1
