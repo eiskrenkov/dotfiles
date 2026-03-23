@@ -1,5 +1,5 @@
 # Path
-set PATH $HOME/bin /usr/local/bin /opt/homebrew/bin /opt/homebrew/bin/fish /opt/homebrew/opt/openssl@3/bin $PATH
+set PATH $HOME/bin $HOME/.local/bin /usr/local/bin /opt/homebrew/bin /opt/homebrew/bin/fish /opt/homebrew/opt/openssl@3/bin $PATH
 
 # Set default language to english
 set -gx LANG en_US
