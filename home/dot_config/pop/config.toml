@@ -3,6 +3,12 @@ exclude_current_dir = false
 disambiguation_strategy = ""
 quick_access_modifier = ""
 
+[select]
+attention_notifications_enabled = true
+
+[worktree]
+attention_notifications_enabled = true
+
 [[projects]]
   path = "~/tds"
   display_depth = 1
