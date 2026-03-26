@@ -2,7 +2,8 @@
 set PATH $HOME/bin $HOME/.local/bin /usr/local/bin /opt/homebrew/bin /opt/homebrew/bin/fish /opt/homebrew/opt/openssl@3/bin $PATH
 
 # Set default language to english
-set -gx LANG en_US
+set -gx LANG en_US.UTF-8
+set -gx LC_ALL en_US.UTF-8
 
 # Set default editor
 set -gx EDITOR /usr/bin/nano
