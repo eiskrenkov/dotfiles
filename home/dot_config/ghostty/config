@@ -43,6 +43,12 @@ keybind = cmd+o=text:\x02o
 # Send ^B + p on Cmd+P
 keybind = cmd+p=text:\x02p
 
+# Send ^B + Shift + P on Cmd+Shift+P
+keybind = cmd+shift+p=text:\x02P
+
+# Send ^B + u on Cmd+U
+keybind = cmd+u=text:\x02u
+
 # Send ^B + g on Cmd+G
 keybind = cmd+g=text:\x02g
 
