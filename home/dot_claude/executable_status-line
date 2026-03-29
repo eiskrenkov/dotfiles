@@ -1,22 +1,89 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Reads Claude Code context window JSON from stdin and renders a visual status bar.
-# Output: [██████░░░░] 63% (200k, Model Name) session_id
+# Output:
+#   [██████░░░░] 63% (1M, Model Name) session_id
+#   5h: [██░░░░░░░░] 20% (3h 12m) | 7d: [█░░░░░░░░░] 10%
 
-jq -r '
-  (.context_window.used_percentage // 0) as $p |
-  ([[($p / 10 | floor), 10] | min, 0] | max) as $f |
-  (10 - $f) as $e |
-  "[\("█" * $f)\("░" * $e)] \($p)% (\(
-    if .context_window.context_window_size then
-      .context_window.context_window_size as $s |
-      if $s >= 1000000 then
-        "\($s / 1000000 * 10 | floor / 10)M"
-      else
-        "\($s / 1000 | floor)k"
-      end
-    else
-      "?"
+input=$(cat)
+
+dim='\033[2;37m'
+rst='\033[0m'
+
+make_bar() {
+  local pct=$1
+  local filled=$(( pct * 10 / 100 ))
+  local empty=$(( 10 - filled ))
+  local color
+  if [ "$pct" -le 50 ]; then
+    color="$dim"
+  elif [ "$pct" -le 75 ]; then
+    color='\033[0;33m'
+  else
+    color='\033[0;31m'
+  fi
+  local filled_str="" empty_str=""
+  for (( i=0; i<filled; i++ )); do filled_str="${filled_str}█"; done
+  for (( i=0; i<empty;  i++ )); do empty_str="${empty_str}░"; done
+  printf "${dim}[${rst}${color}%s${rst}${dim}%s]${rst}" "$filled_str" "$empty_str"
+}
+
+# --- Line 1: Context window ---
+ctx_used=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
+ctx_pct=$(printf "%.0f" "$ctx_used")
+ctx_bar=$(make_bar "$ctx_pct")
+
+ctx_size=$(echo "$input" | jq -r '
+  if .context_window.context_window_size then
+    .context_window.context_window_size as $s |
+    if $s >= 1000000 then "\($s / 1000000 * 10 | floor / 10)M"
+    else "\($s / 1000 | floor)k"
     end
-  ), \(.model.display_name // .model // "unknown")) \(.session_id // "no-session")"
-'
+  else "?"
+  end
+')
+model=$(echo "$input" | jq -r '.model.display_name // .model // "unknown"')
+session=$(echo "$input" | jq -r '.session_id // "no-session"')
+
+printf '%s %b%s%% - %s, %s | %s%b' "$ctx_bar" "$dim" "$ctx_pct" "$ctx_size" "$model" "$session" "$rst"
+
+# --- Line 2: Rate limits ---
+five_used=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+five_resets_at=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
+week_used=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+
+parts=()
+
+if [ -n "$five_used" ]; then
+  pct=$(printf "%.0f" "$five_used")
+  bar=$(make_bar "$pct")
+  reset_str=""
+  if [ -n "$five_resets_at" ]; then
+    now=$(date +%s)
+    diff=$(( five_resets_at - now ))
+    if [ "$diff" -gt 0 ]; then
+      hrs=$(( diff / 3600 ))
+      mins=$(( (diff % 3600) / 60 ))
+      if [ "$hrs" -gt 0 ]; then
+        reset_str=$(printf ' (%dh %dm)' "$hrs" "$mins")
+      else
+        reset_str=$(printf ' (%dm)' "$mins")
+      fi
+    fi
+  fi
+  parts+=("$(printf '%b5h:%b %s %b%s%%%s%b' "$dim" "$rst" "$bar" "$dim" "$pct" "$reset_str" "$rst")")
+fi
+
+if [ -n "$week_used" ]; then
+  pct=$(printf "%.0f" "$week_used")
+  bar=$(make_bar "$pct")
+  parts+=("$(printf '%b7d:%b %s %b%s%%%b' "$dim" "$rst" "$bar" "$dim" "$pct" "$rst")")
+fi
+
+if [ ${#parts[@]} -gt 0 ]; then
+  result="${parts[0]}"
+  for (( i=1; i<${#parts[@]}; i++ )); do
+    result+=$(printf ' %b|%b %s' "$dim" "$rst" "${parts[$i]}")
+  done
+  printf '\n%s' "$result"
+fi
