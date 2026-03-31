@@ -31,6 +31,8 @@ function gco --description "Checkout git branch with fzf or branch name"
 
     # Check if a branch was selected
     if test -n "$branch"
+      # Strip remote prefix so `git checkout` creates a local tracking branch
+      set branch (string replace -r '^origin/' '' $branch)
       git checkout $branch
     end
   end
