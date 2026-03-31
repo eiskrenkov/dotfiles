@@ -36,6 +36,7 @@ brew "uv"
 brew "rtk"                                # https://github.com/rtk-ai/rtk
 brew "glebglazov/tap/pop", args: ["HEAD"] # https://github.com/glebglazov/pop
 brew "opencode"
+brew "libyaml"                            # required for compiling psych by ruby-build
 
 if personal?
   brew "swiftlint"
