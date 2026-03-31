@@ -14,6 +14,22 @@ Apply Brewfile
 brew bundle install
 ```
 
+## Manual stuff
+
+1. Cursor extensions
+
+Export
+
+```
+./home/script/export_cursor_extensions
+```
+
+Import
+
+```
+./home/script/import_cursor_extensions
+```
+
 ## Maintenance
 
 Prefill zoxide index

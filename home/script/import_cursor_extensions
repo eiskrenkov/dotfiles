@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+EXECUTABLE = "cursor"
+
+unless `which #{EXECUTABLE}`.empty?
+  cursor_extensions = `cat "$HOME"/cursor_extensions`.lines.sort
+  installed_extensions = `#{EXECUTABLE} --list-extensions`.lines.sort
+  uninstalled_extensions = cursor_extensions - installed_extensions
+
+  print 'Checking for uninstalled Cursor extensions...'
+
+  if uninstalled_extensions.empty?
+    puts "All extensions are installed"
+  else
+    puts "Found #{uninstalled_extensions.count} uninstalled extensions"
+
+    uninstalled_extensions.each do |extension|
+      puts "Installing #{extension}..."
+      `#{EXECUTABLE} --install-extension #{extension}`
+    end
+
+    puts "Done!"
+  end
+end

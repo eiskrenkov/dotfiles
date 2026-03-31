@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Saving Cursor extensions..."
+
+path="$HOME"/cursor_extensions
+cursor --list-extensions > "$path"
+
+echo "Extensions:"
+cat "$path"
