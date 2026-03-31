@@ -1,9 +1,6 @@
 def personal? = (File.read(File.expand_path("~/.machineid")).strip rescue "") == "personal"
 def work? = !personal?
 
-tap "homebrew/bundle"
-tap "homebrew/services"
-
 tap "hashicorp/tap"
 tap "arl/arl"
 tap "jesseduffield/lazygit"
