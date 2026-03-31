@@ -2,7 +2,7 @@
 
 echo "Saving Cursor extensions..."
 
-path="$HOME"/cursor_extensions
+path="$HOME"/Library/Application Support/Cursor/User/extensions"
 cursor --list-extensions > "$path"
 
 echo "Extensions:"

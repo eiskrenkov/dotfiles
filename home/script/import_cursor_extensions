@@ -3,12 +3,15 @@
 
 EXECUTABLE = "cursor"
 
+HOME = `echo $HOME`.strip
+PATH = File.join(HOME, "/Library/Application Support/Cursor/User/extensions")
+
 unless `which #{EXECUTABLE}`.empty?
-  cursor_extensions = `cat "$HOME"/cursor_extensions`.lines.sort
+  cursor_extensions = `cat "#{PATH}"`.lines.sort
   installed_extensions = `#{EXECUTABLE} --list-extensions`.lines.sort
   uninstalled_extensions = cursor_extensions - installed_extensions
 
-  print 'Checking for uninstalled Cursor extensions...'
+  print "Checking for uninstalled Cursor extensions..."
 
   if uninstalled_extensions.empty?
     puts "All extensions are installed"
