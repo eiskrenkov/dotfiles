@@ -2,8 +2,8 @@
 
 # Reads Claude Code context window JSON from stdin and renders a visual status bar.
 # Output:
-#   [██████░░░░] 63% (1M, Model Name) session_id
-#   5h: [██░░░░░░░░] 20% (3h 12m) | 7d: [█░░░░░░░░░] 10%
+#   [██████░░░░] 63% - ctx | [██░░░░░░░░] 20% - 5h usage (resets 4pm) | [█░░░░░░░░░] 10% - 7d usage
+#   Model Name | session_id
 
 input=$(cat)
 
@@ -28,62 +28,41 @@ make_bar() {
   printf "${dim}[${rst}${color}%s${rst}${dim}%s]${rst}" "$filled_str" "$empty_str"
 }
 
-# --- Line 1: Context window ---
+# --- Line 1: All progress bars ---
 ctx_used=$(echo "$input" | jq -r '.context_window.used_percentage // 0')
 ctx_pct=$(printf "%.0f" "$ctx_used")
 ctx_bar=$(make_bar "$ctx_pct")
 
-ctx_size=$(echo "$input" | jq -r '
-  if .context_window.context_window_size then
-    .context_window.context_window_size as $s |
-    if $s >= 1000000 then "\($s / 1000000 * 10 | floor / 10)M"
-    else "\($s / 1000 | floor)k"
-    end
-  else "?"
-  end
-')
-model=$(echo "$input" | jq -r '.model.display_name // .model // "unknown"')
-session=$(echo "$input" | jq -r '.session_id // "no-session"')
-
-printf '%s %b%s%% - %s, %s | %s%b' "$ctx_bar" "$dim" "$ctx_pct" "$ctx_size" "$model" "$session" "$rst"
-
-# --- Line 2: Rate limits ---
 five_used=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 five_resets_at=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
 week_used=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
 parts=()
+parts+=("$(printf '%s %b%s%% - ctx%b' "$ctx_bar" "$dim" "$ctx_pct" "$rst")")
 
 if [ -n "$five_used" ]; then
   pct=$(printf "%.0f" "$five_used")
   bar=$(make_bar "$pct")
   reset_str=""
   if [ -n "$five_resets_at" ]; then
-    now=$(date +%s)
-    diff=$(( five_resets_at - now ))
-    if [ "$diff" -gt 0 ]; then
-      hrs=$(( diff / 3600 ))
-      mins=$(( (diff % 3600) / 60 ))
-      if [ "$hrs" -gt 0 ]; then
-        reset_str=$(printf ' (%dh %dm)' "$hrs" "$mins")
-      else
-        reset_str=$(printf ' (%dm)' "$mins")
-      fi
-    fi
+    reset_str=$(printf ' (resets %s)' "$(date -r "$five_resets_at" '+%-I%p' | tr '[:upper:]' '[:lower:]')")
   fi
-  parts+=("$(printf '%b5h:%b %s %b%s%%%s%b' "$dim" "$rst" "$bar" "$dim" "$pct" "$reset_str" "$rst")")
+  parts+=("$(printf '%s %b%s%% - 5h usage%s%b' "$bar" "$dim" "$pct" "$reset_str" "$rst")")
 fi
 
 if [ -n "$week_used" ]; then
   pct=$(printf "%.0f" "$week_used")
   bar=$(make_bar "$pct")
-  parts+=("$(printf '%b7d:%b %s %b%s%%%b' "$dim" "$rst" "$bar" "$dim" "$pct" "$rst")")
+  parts+=("$(printf '%s %b%s%% - 7d usage%b' "$bar" "$dim" "$pct" "$rst")")
 fi
 
-if [ ${#parts[@]} -gt 0 ]; then
-  result="${parts[0]}"
-  for (( i=1; i<${#parts[@]}; i++ )); do
-    result+=$(printf ' %b|%b %s' "$dim" "$rst" "${parts[$i]}")
-  done
-  printf '\n%s' "$result"
-fi
+result="${parts[0]}"
+for (( i=1; i<${#parts[@]}; i++ )); do
+  result+=$(printf ' %b|%b %s' "$dim" "$rst" "${parts[$i]}")
+done
+printf '%s' "$result"
+
+# --- Line 2: Model & session ---
+model=$(echo "$input" | jq -r '.model.display_name // .model // "unknown"')
+session=$(echo "$input" | jq -r '.session_id // "no-session"')
+printf '\n%b%s | %s%b' "$dim" "$model" "$session" "$rst"
