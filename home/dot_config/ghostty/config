@@ -4,6 +4,7 @@ command         = /bin/zsh -l -i -c "tmux new-session -A -s main"
 confirm-close-surface = false
 
 window-colorspace = display-p3
+macos-icon = holographic
 
 font-family = "TX-02"
 font-size    = 14

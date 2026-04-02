@@ -1,71 +1,4 @@
 {
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
-  "enabledPlugins": {
-    "ruby-lsp@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true
-  },
-  "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'",
-            "type": "command"
-          }
-        ],
-        "matcher": ""
-      },
-      {
-        "hooks": [
-          {
-            "command": "pop pane set-status needs_attention 2>/dev/null || true",
-            "type": "command"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/eiskrenkov/.claude/hooks/rtk-rewrite.sh",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
-      },
-      {
-        "hooks": [
-          {
-            "command": "pop pane set-status working 2>/dev/null || true",
-            "type": "command"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "command": "pop pane set-status needs_attention 2>/dev/null || true",
-            "type": "command"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "command": "pop pane set-status working 2>/dev/null || true",
-            "type": "command"
-          }
-        ]
-      }
-    ]
-  },
-  "model": "opus[1m]",
   "permissions": {
     "allow": [
       "Bash(bundle exec rubocop:*)",
@@ -86,9 +19,76 @@
       "Bash(bundle show:*)"
     ]
   },
-  "skipDangerousModePermissionPrompt": true,
+  "model": "opus[1m]",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pop pane set-status needs_attention 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/eiskrenkov/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pop pane set-status working 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pop pane set-status needs_attention 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pop pane set-status working 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
-    "command": "~/.claude/status-line",
-    "type": "command"
-  }
+    "type": "command",
+    "command": "~/.claude/status-line"
+  },
+  "enabledPlugins": {
+    "ruby-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true
 }

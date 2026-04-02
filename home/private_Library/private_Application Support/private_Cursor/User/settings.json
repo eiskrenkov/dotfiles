@@ -43,6 +43,7 @@
     "terminal.integrated.defaultProfile.osx": "fish",
     "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
 
+    "window.titleBarStyle": "native",
     "window.customTitleBarVisibility": "never",
     "window.commandCenter": false,
     "window.nativeTabs": true,
@@ -97,5 +98,6 @@
     "git.blame.editorDecoration.enabled": true,
     "gitlens.currentLine.enabled": false,
     "claudeCode.preferredLocation": "sidebar",
-    "claudeCode.initialPermissionMode": "acceptEdits"
+    "claudeCode.initialPermissionMode": "acceptEdits",
+    "workbench.layoutControl.enabled": false
 }
