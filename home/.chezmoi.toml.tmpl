@@ -1,0 +1,19 @@
+{{- $tds := false -}}
+{{- $personal := false -}}
+{{- $computerName := "" -}}
+
+{{- if (eq .chezmoi.os "darwin") -}}
+{{-   $computerName = output "scutil" "--get" "ComputerName" | trim -}}
+{{- else -}}
+{{-   $computerName = .chezmoi.hostname -}}
+{{- end -}}
+
+{{- if (eq $computerName "macbook-pro-tds") -}}
+{{-   $tds = true -}}
+{{- else if (eq $computerName "macbook-pro-personal") -}}
+{{-   $personal = true -}}
+{{- end -}}
+
+[data]
+tds                       = {{ $tds }}
+personal                  = {{ $personal }}

@@ -16,18 +16,35 @@ brew bundle install
 
 ## Manual stuff
 
-1. Cursor extensions
+### 1. Set computer name
+
+```sh
+scutil --get ComputerName
+
+sudo scutil --set ComputerName "macbook-pro-tds"
+sudo scutil --set LocalHostName "macbook-pro-tds"
+sudo scutil --set HostName "macbook-pro-tds.local"
+```
+
+### 2. Cursor extensions
 
 Export
 
-```
+```sh
 ./home/script/export_cursor_extensions
 ```
 
 Import
 
-```
+```sh
 ./home/script/import_cursor_extensions
+```
+
+### 3. Transfer AWS configs
+
+```sh
+~/.aws/config
+~/.aws/credentials
 ```
 
 ## Maintenance

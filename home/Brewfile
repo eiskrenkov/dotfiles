@@ -1,5 +1,11 @@
-def personal? = (File.read(File.expand_path("~/.machineid")).strip rescue "") == "personal"
-def work? = !personal?
+COMPUTER_NAME = if RUBY_PLATFORM.include?("darwin")
+  `scutil --get ComputerName`.strip
+else
+  `hostname`.strip
+end
+
+def tds? = COMPUTER_NAME == "macbook-pro-tds"
+def personal? = COMPUTER_NAME == "macbook-pro-personal"
 
 tap "hashicorp/tap"
 tap "arl/arl"
@@ -66,14 +72,20 @@ cask "zoom"
 cask "postman"
 cask "orbstack"
 cask "bartender"
-cask "github-copilot-for-xcode" if personal?
-cask "sf-symbols" if personal?
 cask "cursor"
 cask "ghostty"
 cask "claude"
-cask "keybase" unless personal?
-cask "chromium" if personal?
-cask "slack" if work?
+
+if tds?
+  cask "keybase"
+  cask "slack"
+end
+
+if personal?
+  cask "github-copilot-for-xcode"
+  cask "sf-symbols"
+  cask "chromium"
+end
 
 # Mases
 # mas "Paste", id: 967_805_235
