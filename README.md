@@ -47,6 +47,12 @@ Import
 ~/.aws/credentials
 ```
 
+### 4. Reveal "Anywhere" option in System Settings > Privacy & Security > Allow applications from
+
+```sh
+sudo spctl --master-disable
+```
+
 ## Maintenance
 
 Prefill zoxide index
