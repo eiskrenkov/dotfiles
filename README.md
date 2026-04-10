@@ -53,6 +53,13 @@ Import
 sudo spctl --master-disable
 ```
 
+### 5. Pop
+
+```sh
+pop integrate claude
+pop integrate opencode
+```
+
 ## Maintenance
 
 Prefill zoxide index

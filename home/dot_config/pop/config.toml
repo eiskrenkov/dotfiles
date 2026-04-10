@@ -4,10 +4,10 @@ disambiguation_strategy = ""
 quick_access_modifier = ""
 
 [select]
-attention_notifications_enabled = true
+unread_notifications_enabled = true
 
 [worktree]
-attention_notifications_enabled = true
+unread_notifications_enabled = true
 
 [[projects]]
   path = "~/tds"

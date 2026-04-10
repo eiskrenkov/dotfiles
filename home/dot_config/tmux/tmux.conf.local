@@ -387,8 +387,8 @@ set -g mode-keys vi
 
 # pop
 bind-key -r p display-popup -E -w 60% -h 60% "pop select"
-bind-key -r P display-popup -E -w 60% -h 60% "pop worktree --switch"
-bind-key o display-popup -E -w 60% -h 60% "pop dashboard"
+bind-key -r o display-popup -E -w 60% -h 60% "pop worktree --switch"
+bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard"
 
 # lazygit
 bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "lazygit"
