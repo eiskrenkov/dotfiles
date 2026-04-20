@@ -78,22 +78,46 @@
   "model": "opus[1m]",
   "permissions": {
     "allow": [
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(git ls-tree:*)",
+
       "Bash(bundle exec rubocop:*)",
       "Bash(bundle exec rspec:*)",
-      "Bash(bundle exec tds-danger run:*)",
-      "Bash(bundle exec rails runner:*)",
-      "Bash(grep:*)",
-      "Bash(find:*)",
-      "mcp__atlassian__getjiraissue",
-      "mcp__atlassian__getaccessibleatlassianresources",
-      "Bash(xargs:*)",
-      "Bash(ls:*)",
+
       "Bash(bin/rails zeitwerk:check)",
-      "Bash(git ls-tree:*)",
-      "Bash(bundle exec ruby:*)",
-      "Bash(bundle exec rake:*)",
+      "Bash(bundle exec rails zeitwerk:check)",
+      "Bash(bundle exec rake zeitwerk:check)",
+
       "Bash(bundle info:*)",
-      "Bash(bundle show:*)"
+      "Bash(bundle show:*)",
+
+      "Bash(bin/rails routes:*)",
+      "Bash(bundle exec rails routes:*)",
+      "Bash(rake routes:*)",
+      "Bash(bundle exec rake routes:*)",
+
+      "Bash(bin/rails db:migrate:*)",
+      "Bash(bundle exec rails db:migrate:*)",
+      "Bash(bundle exec rake db:migrate:*)",
+
+      "Bash(bin/rails db:rollback:*)",
+      "Bash(bundle exec rails db:rollback:*)",
+      "Bash(bundle exec rake db:rollback:*)",
+
+      "Bash(bin/rails db:migrate:status:*)",
+      "Bash(bundle exec rails db:migrate:status:*)",
+      "Bash(bundle exec rake db:migrate:status:*)",
+
+      "Bash(bin/rails generate:*)",
+      "Bash(bundle exec rails generate:*)",
+
+      "Bash(bin/annotate:*)",
+      "Bash(bundle exec tds-danger run:*)",
+
+      "mcp__atlassian__getjiraissue",
+      "mcp__atlassian__getaccessibleatlassianresources"
     ]
   },
   "skipDangerousModePermissionPrompt": true,

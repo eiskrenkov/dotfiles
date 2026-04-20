@@ -23,4 +23,4 @@ mise.local.toml
 .envrc
 
 # Claude code
-.claude/
+.claude/settings.local.json
