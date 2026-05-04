@@ -45,6 +45,7 @@ brew "opencode"
 brew "libyaml"                            # required for compiling psych by ruby-build
 
 if personal?
+  brew "asc"
   brew "swiftlint"
   # brew "odnoletkov/tap/xcodeproj-format"
   brew "xcodesorg/made/xcodes"
