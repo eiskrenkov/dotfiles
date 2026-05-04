@@ -75,6 +75,7 @@ cask "bartender"
 cask "cursor"
 cask "ghostty"
 cask "claude"
+cask "cloudflare-warp"
 
 if tds?
   cask "keybase"
