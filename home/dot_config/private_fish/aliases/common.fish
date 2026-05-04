@@ -15,3 +15,5 @@ alias pn="pnpm"
 
 # Zed
 # alias zed="zed-preview"
+
+alias dotfiles="$GUI_EDITOR '$CHEZMOI_WORKING_TREE'"
