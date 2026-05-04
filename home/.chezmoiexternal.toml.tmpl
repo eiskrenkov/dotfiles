@@ -1,0 +1,24 @@
+[".config/tmux/tmux.conf"]
+	type = "file"
+	url = "https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf"
+	refreshPeriod = "168h"
+
+[".oh-my-zsh/custom/themes/powerlevel10k"]
+	type = "archive"
+	url = "https://github.com/romkatv/powerlevel10k/archive/v1.20.0.tar.gz"
+	stripComponents = 1
+	exact = true
+
+{{ if .personal -}}
+[".claude/skills"]
+	type = "archive"
+	url = "https://github.com/rorkai/app-store-connect-cli-skills/archive/refs/heads/main.tar.gz"
+	stripComponents = 2
+	refreshPeriod = "168h"
+
+[".agents/skills"]
+	type = "archive"
+	url = "https://github.com/rorkai/app-store-connect-cli-skills/archive/refs/heads/main.tar.gz"
+	stripComponents = 2
+	refreshPeriod = "168h"
+{{- end }}
