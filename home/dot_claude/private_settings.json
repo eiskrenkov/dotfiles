@@ -79,6 +79,11 @@
           {
             "type": "command",
             "command": "pop pane set-status idle 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/auto_allow_xcode_mcp.js",
+            "timeout": 10000
           }
         ]
       }
