@@ -1,45 +1,74 @@
 {
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
-  "enabledPlugins": {
-    "ruby-lsp@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(bundle exec rubocop:*)",
+      "Bash(bundle exec rspec:*)",
+      "Bash(bin/rails zeitwerk:check)",
+      "Bash(bundle exec rails zeitwerk:check)",
+      "Bash(bundle exec rake zeitwerk:check)",
+      "Bash(bundle info:*)",
+      "Bash(bundle show:*)",
+      "Bash(bin/rails routes:*)",
+      "Bash(bundle exec rails routes:*)",
+      "Bash(rake routes:*)",
+      "Bash(bundle exec rake routes:*)",
+      "Bash(bin/rails db:migrate:*)",
+      "Bash(bundle exec rails db:migrate:*)",
+      "Bash(bundle exec rake db:migrate:*)",
+      "Bash(bin/rails db:rollback:*)",
+      "Bash(bundle exec rails db:rollback:*)",
+      "Bash(bundle exec rake db:rollback:*)",
+      "Bash(bin/rails db:migrate:status:*)",
+      "Bash(bundle exec rails db:migrate:status:*)",
+      "Bash(bundle exec rake db:migrate:status:*)",
+      "Bash(bin/rails generate:*)",
+      "Bash(bundle exec rails generate:*)",
+      "Bash(bin/annotate:*)",
+      "Bash(bundle exec tds-danger run:*)",
+      "mcp__atlassian__getjiraissue",
+      "mcp__atlassian__getaccessibleatlassianresources"
+    ]
   },
+  "model": "opus[1m]",
   "hooks": {
     "Notification": [
       {
+        "matcher": "",
         "hooks": [
           {
-            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'",
-            "type": "command"
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'"
           }
-        ],
-        "matcher": ""
+        ]
       },
       {
         "hooks": [
           {
-            "command": "pop pane set-status unread 2>/dev/null || true",
-            "type": "command"
+            "type": "command",
+            "command": "pop pane set-status unread 2>/dev/null || true"
           }
         ]
       }
     ],
     "PreToolUse": [
       {
+        "matcher": "Bash",
         "hooks": [
           {
-            "command": "/Users/eiskrenkov/.claude/hooks/rtk-rewrite.sh",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/eiskrenkov/.claude/hooks/rtk-rewrite.sh"
           }
-        ],
-        "matcher": "Bash"
+        ]
       },
       {
         "hooks": [
           {
-            "command": "pop pane set-status working 2>/dev/null || true",
-            "type": "command"
+            "type": "command",
+            "command": "pop pane set-status working 2>/dev/null || true"
           }
         ]
       }
@@ -48,8 +77,8 @@
       {
         "hooks": [
           {
-            "command": "pop pane set-status idle 2>/dev/null || true",
-            "type": "command"
+            "type": "command",
+            "command": "pop pane set-status idle 2>/dev/null || true"
           }
         ]
       }
@@ -58,8 +87,8 @@
       {
         "hooks": [
           {
-            "command": "pop pane set-status unread 2>/dev/null || true",
-            "type": "command"
+            "type": "command",
+            "command": "pop pane set-status unread 2>/dev/null || true"
           }
         ]
       }
@@ -68,61 +97,31 @@
       {
         "hooks": [
           {
-            "command": "pop pane set-status working 2>/dev/null || true",
-            "type": "command"
+            "type": "command",
+            "command": "pop pane set-status working 2>/dev/null || true"
           }
         ]
       }
     ]
   },
-  "model": "opus[1m]",
-  "permissions": {
-    "allow": [
-      "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(find:*)",
-      "Bash(git ls-tree:*)",
-
-      "Bash(bundle exec rubocop:*)",
-      "Bash(bundle exec rspec:*)",
-
-      "Bash(bin/rails zeitwerk:check)",
-      "Bash(bundle exec rails zeitwerk:check)",
-      "Bash(bundle exec rake zeitwerk:check)",
-
-      "Bash(bundle info:*)",
-      "Bash(bundle show:*)",
-
-      "Bash(bin/rails routes:*)",
-      "Bash(bundle exec rails routes:*)",
-      "Bash(rake routes:*)",
-      "Bash(bundle exec rake routes:*)",
-
-      "Bash(bin/rails db:migrate:*)",
-      "Bash(bundle exec rails db:migrate:*)",
-      "Bash(bundle exec rake db:migrate:*)",
-
-      "Bash(bin/rails db:rollback:*)",
-      "Bash(bundle exec rails db:rollback:*)",
-      "Bash(bundle exec rake db:rollback:*)",
-
-      "Bash(bin/rails db:migrate:status:*)",
-      "Bash(bundle exec rails db:migrate:status:*)",
-      "Bash(bundle exec rake db:migrate:status:*)",
-
-      "Bash(bin/rails generate:*)",
-      "Bash(bundle exec rails generate:*)",
-
-      "Bash(bin/annotate:*)",
-      "Bash(bundle exec tds-danger run:*)",
-
-      "mcp__atlassian__getjiraissue",
-      "mcp__atlassian__getaccessibleatlassianresources"
-    ]
-  },
-  "skipDangerousModePermissionPrompt": true,
   "statusLine": {
-    "command": "~/.claude/status-line",
-    "type": "command"
-  }
+    "type": "command",
+    "command": "~/.claude/status-line"
+  },
+  "enabledPlugins": {
+    "ruby-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true,
+    "firebase@firebase": true
+  },
+  "extraKnownMarketplaces": {
+    "firebase": {
+      "source": {
+        "source": "github",
+        "repo": "firebase/firebase-tools"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true
 }
