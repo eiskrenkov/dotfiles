@@ -32,6 +32,12 @@ keybind = cmd+shift+d=text:\x02\"
 # Send ^B + % on Cmd+Shift+R
 keybind = cmd+shift+r=text:\x02%
 
+# Send ^B + U on Cmd+Shift+U (split up)
+keybind = cmd+shift+u=text:\x02U
+
+# Send ^B + L on Cmd+Shift+L (split left)
+keybind = cmd+shift+l=text:\x02L
+
 # Send ^B + z on Cmd+Shift+Enter
 keybind = cmd+shift+enter=text:\x02z
 
@@ -67,3 +73,9 @@ keybind = cmd+shift+down=text:\x02\x1B[B
 
 # Send ^B + ESC [D on Cmd+Shift+Left
 keybind = cmd+shift+left=text:\x02\x1B[D
+
+# Send ^B + < on Cmd+Up (scroll tmux pane up)
+keybind = cmd+up=text:\x02<
+
+# Send ^B + > on Cmd+Down (scroll tmux pane down)
+keybind = cmd+down=text:\x02>

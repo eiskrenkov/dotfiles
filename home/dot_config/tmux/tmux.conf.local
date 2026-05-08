@@ -393,8 +393,14 @@ bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard"
 # lazygit
 bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "lazygit"
 
+# scroll pane up/down (triggered from ghostty's cmd+up / cmd+down)
+bind-key -r < copy-mode -u
+bind-key -r > if -F '#{pane_in_mode}' 'send-keys -X scroll-down'
+
 bind '"' split-window -c "#{pane_current_path}"
 bind % split-window -h -c "#{pane_current_path}"
+bind U split-window -vb -c "#{pane_current_path}"
+bind L split-window -hb -c "#{pane_current_path}"
 bind c new-window -c "#{pane_current_path}"
 bind & kill-window # Disable confirmation
 bind x kill-pane # Disable confirmation
