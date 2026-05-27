@@ -77,10 +77,10 @@ cask "cursor"
 cask "ghostty"
 cask "claude"
 cask "cloudflare-warp"
+cask "slack"
 
 if tds?
   cask "keybase"
-  cask "slack"
 end
 
 if personal?
