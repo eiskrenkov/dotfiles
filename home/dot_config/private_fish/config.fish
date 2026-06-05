@@ -25,3 +25,6 @@ source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 # Mise
 mise activate fish | source
+
+# pop completions
+pop completion fish | source

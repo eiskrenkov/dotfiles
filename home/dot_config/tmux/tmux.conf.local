@@ -450,6 +450,13 @@ tmux_conf_uninstall_plugins_on_reload=true
 #set -g @continuum-restore 'on'
 
 
+# -- custom key bindings -------------------------------------------------------
+
+# prefix + M (Ghostty cmd+shift+m): open Sublime Merge for the active pane's
+# git repository, if it is one
+bind -N "Open Sublime Merge for the current pane's repo" M run-shell -b "~/.config/tmux/scripts/open-smerge.sh '#{pane_current_path}'"
+
+
 # -- custom variables ----------------------------------------------------------
 
 # to define a custom #{foo} variable, define a POSIX shell function between the

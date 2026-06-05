@@ -79,3 +79,6 @@ keybind = cmd+up=text:\x02<
 
 # Send ^B + > on Cmd+Down (scroll tmux pane down)
 keybind = cmd+down=text:\x02>
+
+# Send ^B + M on Cmd+Shift+M (open Sublime Merge for the current pane's repo)
+keybind = cmd+shift+m=text:\x02M

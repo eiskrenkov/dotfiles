@@ -1,3 +1,9 @@
+{{- $mattpocock_skills_commit := "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb" -}}
+{{- $mattpocock_skills_url := printf "https://github.com/mattpocock/skills/archive/%s.tar.gz" $mattpocock_skills_commit -}}
+{{- $mattpocock_skills_checksum := "4e34e6f9016f3ce407fea75f12110ee11b0ffc19b33e64517ee2d48ee89f45f6" -}}
+{{- $gleb_dotfiles_commit := "9bdc6cf6b8bcbc14e86d639bb0b0aee1c3b57577" -}}
+{{- $gleb_dotfiles_url := printf "https://github.com/glebglazov/dotfiles/archive/%s.tar.gz" $gleb_dotfiles_commit -}}
+{{- $gleb_dotfiles_checksum := "e3afbacfef5ba081a29a476d791ed1a6a23a52dd9fad25e52f42f22cc01e7624" -}}
 [".config/tmux/tmux.conf"]
 	type = "file"
 	url = "https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf"
@@ -9,13 +15,65 @@
 	stripComponents = 1
 	exact = true
 
-{{ if .personal -}}
-[".claude/skills"]
+# Skills live only in ~/.agents/skills; ~/.claude/skills is a symlink to it
+# (see dot_claude/symlink_skills.tmpl), so every skill below is available to
+# both Claude Code and other agents.
+#
+# mattpocock/skills — pinned to a commit, one external per skill. Ungated, so
+# these are present on every machine (as the old local skills were).
+[".agents/skills/improve-codebase-architecture"]
 	type = "archive"
-	url = "https://github.com/rorkai/app-store-connect-cli-skills/archive/refs/heads/main.tar.gz"
-	stripComponents = 2
-	refreshPeriod = "168h"
+	url = "{{ $mattpocock_skills_url }}"
+	checksum.sha256 = "{{ $mattpocock_skills_checksum }}"
+	stripComponents = 4
+	include = ["**/engineering/improve-codebase-architecture/**"]
+	exact = true
 
+[".agents/skills/grill-with-docs"]
+	type = "archive"
+	url = "{{ $mattpocock_skills_url }}"
+	checksum.sha256 = "{{ $mattpocock_skills_checksum }}"
+	stripComponents = 4
+	include = ["**/engineering/grill-with-docs/**"]
+	exact = true
+
+[".agents/skills/handoff"]
+	type = "archive"
+	url = "{{ $mattpocock_skills_url }}"
+	checksum.sha256 = "{{ $mattpocock_skills_checksum }}"
+	stripComponents = 4
+	include = ["**/productivity/handoff/**"]
+	exact = true
+
+[".agents/skills/grill-me"]
+	type = "archive"
+	url = "{{ $mattpocock_skills_url }}"
+	checksum.sha256 = "{{ $mattpocock_skills_checksum }}"
+	stripComponents = 4
+	include = ["**/productivity/grill-me/**"]
+	exact = true
+
+# glebglazov/dotfiles — pinned to a commit. to-prd and to-issues are gleb's own
+# versions (they write to local markdown files), preferred over mattpocock's.
+[".agents/skills/to-prd"]
+	type = "archive"
+	url = "{{ $gleb_dotfiles_url }}"
+	checksum.sha256 = "{{ $gleb_dotfiles_checksum }}"
+	stripComponents = 5
+	include = ["**/dot_agents/skills/to-prd/**"]
+	exact = true
+
+[".agents/skills/to-issues"]
+	type = "archive"
+	url = "{{ $gleb_dotfiles_url }}"
+	checksum.sha256 = "{{ $gleb_dotfiles_checksum }}"
+	stripComponents = 5
+	include = ["**/dot_agents/skills/to-issues/**"]
+	exact = true
+
+{{ if .personal -}}
+# App Store Connect CLI skills — personal machine only, whole directory,
+# auto-updated weekly.
 [".agents/skills"]
 	type = "archive"
 	url = "https://github.com/rorkai/app-store-connect-cli-skills/archive/refs/heads/main.tar.gz"
