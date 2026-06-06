@@ -15,16 +15,19 @@ mouse-hide-while-typing = true
 # Send ^B + c on Cmd+T
 keybind = cmd+t=text:\x02c
 
-# Send ^B + 1 on Cmd+1
-keybind = cmd+1=text:\x021
-keybind = cmd+2=text:\x022
-keybind = cmd+3=text:\x023
-keybind = cmd+4=text:\x024
-keybind = cmd+5=text:\x025
-keybind = cmd+6=text:\x026
-keybind = cmd+7=text:\x027
-keybind = cmd+8=text:\x028
-keybind = cmd+9=text:\x029
+# Send ^B + N on Cmd+N to switch tmux windows by index.
+# Bind the PHYSICAL digit keys (digit_N) so these override Ghostty's built-in
+# cmd+digit_N=goto_tab defaults — otherwise those intercept Cmd+1..9 and switch
+# Ghostty tabs instead of reaching tmux.
+keybind = cmd+digit_1=text:\x021
+keybind = cmd+digit_2=text:\x022
+keybind = cmd+digit_3=text:\x023
+keybind = cmd+digit_4=text:\x024
+keybind = cmd+digit_5=text:\x025
+keybind = cmd+digit_6=text:\x026
+keybind = cmd+digit_7=text:\x027
+keybind = cmd+digit_8=text:\x028
+keybind = cmd+digit_9=text:\x029
 
 # Send ^B + " on Cmd+Shift+D
 keybind = cmd+shift+d=text:\x02\"
@@ -82,3 +85,6 @@ keybind = cmd+down=text:\x02>
 
 # Send ^B + M on Cmd+Shift+M (open Sublime Merge for the current pane's repo)
 keybind = cmd+shift+m=text:\x02M
+
+# Send ^B + E on Cmd+Shift+E (open/focus Cursor for the current pane's project)
+keybind = cmd+shift+e=text:\x02E

@@ -237,5 +237,13 @@
     "key": "alt+cmd+s",
     "command": "workbench.action.toggleUnifiedSidebarFromKeyboard",
     "when": "cursor.agentIdeUnification.enabled == true && !isAuxiliaryWindowFocusedContext"
+  },
+  {
+    "key": "shift+cmd+s",
+    "command": "-workbench.action.files.saveAs"
+  },
+  {
+    "key": "shift+cmd+s",
+    "command": "workbench.action.toggleSidebarVisibility"
   }
 ]

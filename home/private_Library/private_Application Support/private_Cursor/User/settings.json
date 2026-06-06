@@ -99,5 +99,6 @@
     "gitlens.currentLine.enabled": false,
     "claudeCode.preferredLocation": "sidebar",
     "claudeCode.initialPermissionMode": "acceptEdits",
-    "workbench.layoutControl.enabled": false
+    "workbench.layoutControl.enabled": false,
+    "window.autoDetectColorScheme": false
 }
