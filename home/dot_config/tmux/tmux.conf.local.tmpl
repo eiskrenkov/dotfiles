@@ -391,9 +391,10 @@ set -g mode-keys vi
 # once the popup closes and #{pane_current_path} resolves to the new session.
 # See scripts/sync-cursor.sh. NB: client-session-changed is owned by pop itself,
 # so we hook the bindings rather than that hook to avoid clobbering pop.
-bind-key -r p display-popup -E -w 80% -h 60% "pop select" \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"
-bind-key -r o display-popup -E -w 60% -h 60% "pop worktree --switch" \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"
-bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard" \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"
+# The Cursor sync is work-machine-only (.tds); elsewhere the picker just switches.
+bind-key -r p display-popup -E -w 80% -h 60% "pop select"{{ if .tds }} \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"{{ end }}
+bind-key -r o display-popup -E -w 60% -h 60% "pop worktree --switch"{{ if .tds }} \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"{{ end }}
+bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard"{{ if .tds }} \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"{{ end }}
 
 # lazygit
 bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "lazygit"
