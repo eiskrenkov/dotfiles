@@ -12,4 +12,4 @@ function define_bundle_context_functions --on-variable AUTO_BUNDLE_EXEC_COMMANDS
     end
 end
 
-set -gx AUTO_BUNDLE_EXEC_COMMANDS rails:rake:sidekiq:cap:rspec:rubocop:middleman
+set -gx AUTO_BUNDLE_EXEC_COMMANDS rails:rake:sidekiq:cap:rspec:rubocop:middleman:fastlane
