@@ -3,7 +3,7 @@ exclude_current_dir = false
 disambiguation_strategy = ""
 quick_access_modifier = ""
 
-[select]
+[project]
 unread_notifications_enabled = true
 
 [worktree]
