@@ -16,8 +16,10 @@
 [gpg]
   format = ssh
 
-[gpg "ssh"]
-  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-
 [commit]
   gpgsign = true
+
+[rerere]
+  enabled = true
+  # automatically solve conflict if rebasing on a branch with a lot of new commits
+  autoUpdate = true
