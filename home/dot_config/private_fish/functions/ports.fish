@@ -51,7 +51,11 @@ function ports --description "Find listening ports in tmux panes and switch to t
     return 1
   end
 
-  set -l selection (printf '%s\n' $entries | sort -t\t -k1 -n | column -t -s\t | fzf --tmux --header="PORT  CMD  PANE")
+  # Plain fzf when launched inside the command palette's popup (can't nest a
+  # second popup); a floating `fzf --tmux` popup when run directly in a pane.
+  set -l fzf_opts --header="PORT  CMD  PANE"
+  set -q CMD_PALETTE_POPUP; or set -a fzf_opts --tmux
+  set -l selection (printf '%s\n' $entries | sort -t\t -k1 -n | column -t -s\t | fzf $fzf_opts)
 
   if test -n "$selection"
     tmux switch-client -t (string match -r '\S+$' $selection)

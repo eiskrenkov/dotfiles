@@ -27,7 +27,11 @@ function gco --description "Checkout git branch with fzf or branch name"
     set remote_branches (git for-each-ref --count=10 refs/remotes/origin --sort=-committerdate --format="%(authordate:short) %(color:red)%(objectname:short) %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset)) %(authorname)" | sed "s#refs/remotes/origin/##g" | sed "s#refs/heads/##g" | sort -u)
     set local_branches (git for-each-ref --count=100 --sort=-committerdate refs/heads --format="%(authordate:short) %(color:red)%(objectname:short) %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset)) %(authorname)")
 
-    set branch (string join \n $local_branches $remote_branches | fzf --ansi --tmux | awk '{print $3}')
+    # Plain fzf when launched inside the command palette's popup (can't nest a
+    # second popup); a floating `fzf --tmux` popup when run directly in a pane.
+    set -l fzf_opts --ansi
+    set -q CMD_PALETTE_POPUP; or set -a fzf_opts --tmux
+    set branch (string join \n $local_branches $remote_branches | fzf $fzf_opts | awk '{print $3}')
 
     # Check if a branch was selected
     if test -n "$branch"

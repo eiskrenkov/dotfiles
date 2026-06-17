@@ -385,16 +385,34 @@ set -g mouse on
 set -g status-keys vi
 set -g mode-keys vi
 
-# pop — after the picker closes (it switches the tmux session via switch-client)
-# sync the Cursor editor to the same project, so the editor (left half of the
-# screen) and this terminal (right half) stay paired. Chained with \; so it runs
-# once the popup closes and #{pane_current_path} resolves to the new session.
-# See scripts/sync-cursor.sh. NB: client-session-changed is owned by pop itself,
-# so we hook the bindings rather than that hook to avoid clobbering pop.
-# The Cursor sync is work-machine-only (.tds); elsewhere the picker just switches.
-bind-key -r p display-popup -E -w 80% -h 60% "pop select"{{ if .tds }} \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"{{ end }}
-bind-key -r o display-popup -E -w 60% -h 60% "pop worktree --switch"{{ if .tds }} \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"{{ end }}
-bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard"{{ if .tds }} \; run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"{{ end }}
+# pop — popup pickers that switch the tmux session via switch-client.
+bind-key -r p display-popup -E -w 80% -h 60% "pop select"
+bind-key -r o display-popup -E -w 60% -h 60% "pop worktree --switch"
+bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard"
+
+{{ if .tds -}}
+# Pair the Cursor editor (left half of the screen) to the active project so it
+# follows when you switch projects with pop. This lives on a hook, not chained
+# off the picker bindings: chaining ran sync-cursor.sh every time the picker
+# closed — even on Esc with no selection — and before switch-client had resolved
+# the new path. client-session-changed fires only on an *actual* session switch,
+# with #{pane_current_path} already pointing at the new project. Appended at a
+# high index so it coexists with pop's own client-session-changed hook (which
+# clears pane status) rather than clobbering it. Work machine only (.tds).
+# See scripts/sync-cursor.sh.
+set-hook -g 'client-session-changed[100]' "run-shell -b \"~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'\""
+{{ end -}}
+
+# prefix + P (Ghostty cmd+shift+p): command palette — an fzf modal listing the
+# rich, easy-to-forget features in these dotfiles (smart checkout, ports, open
+# in Sublime Merge / Cursor, …), sorted by recency of use, with each feature's
+# matching keybind shown. The registry lives in command_palette.fish; selecting
+# a row runs the exact same command/script the feature's keybind would. The
+# palette only *picks*; the dispatcher (started in the background first, since
+# tmux runs commands chained after display-popup immediately rather than on
+# close) waits for the choice, lets the popup close, then runs it — so
+# interactive fzf tools and popups never nest inside the palette's own popup.
+bind-key P run-shell -b "~/.config/tmux/scripts/palette-dispatch.sh '#{pane_id}' '#{pane_current_path}'" \; display-popup -E -w 70% -h 70% -d "#{pane_current_path}" "fish -c command_palette"
 
 # lazygit
 bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "lazygit"
@@ -459,8 +477,9 @@ tmux_conf_uninstall_plugins_on_reload=true
 # -- custom key bindings -------------------------------------------------------
 
 # prefix + M (Ghostty cmd+shift+m): open Sublime Merge for the active pane's
-# git repository, if it is one
-bind -N "Open Sublime Merge for the current pane's repo" M run-shell -b "~/.config/tmux/scripts/open-smerge.sh '#{pane_current_path}'"
+# git repository, if it is one. Runs the open-in-sublime-merge fish function —
+# the exact same code path the command palette invokes, so the two can't drift.
+bind -N "Open Sublime Merge for the current pane's repo" M run-shell -b "fish -c 'open-in-sublime-merge \"#{pane_current_path}\"'"
 
 # prefix + E (Ghostty cmd+shift+e): open/focus Cursor for the active pane's
 # project — a manual counterpart to the pop-picker sync (same sync-cursor.sh).
