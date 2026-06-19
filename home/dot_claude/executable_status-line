@@ -67,6 +67,6 @@ model=$(echo "$input" | jq -r '.model.display_name // .model // "unknown"')
 effort=$(echo "$input" | jq -r '.effort.level // empty')
 session=$(echo "$input" | jq -r '.session_id // "no-session"')
 if [ -n "$effort" ]; then
-  model="$model ($effort)"
+  model="$model - $effort"
 fi
 printf '\n%b%s | %s%b' "$dim" "$model" "$session" "$rst"
