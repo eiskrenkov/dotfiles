@@ -9,6 +9,12 @@ unread_notifications_enabled = true
 [worktree]
 unread_notifications_enabled = true
 
+[[worktree.commands]]
+key = "ctrl+a"
+label = "new"
+command = "create-worktree"
+exit = true
+
 [[projects]]
   path = "~/tds"
   display_depth = 1

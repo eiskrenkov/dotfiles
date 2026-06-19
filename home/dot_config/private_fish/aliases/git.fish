@@ -54,4 +54,4 @@ alias gd='git diff'
 
 alias glg='git log --stat'
 alias glgga='git log --graph --decorate --all'
-alias glo='git log --oneline --decorate'
+# glo is a function (git log browser in an fzf popup)
