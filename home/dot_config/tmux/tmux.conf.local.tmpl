@@ -139,10 +139,17 @@ tmux_conf_theme_focused_pane_bg="$tmux_conf_theme_colour_2"
 tmux_conf_theme_pane_border_style=thin
 
 # pane borders colours:
+# The active pane's border matches that pane's label-chip colour (@pane_color,
+# set per pane by scripts/pane-color.sh) so the focused frame and its chip share
+# a hue. Copy-mode (yellow) and synchronize-panes (red) still take precedence,
+# and panes without a colour yet fall back to the usual blue. Inactive borders
+# stay neutral grey so the focused pane still stands out — to colour *every*
+# pane's border with its own chip colour instead, change the line below to:
+#   tmux_conf_theme_pane_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_2}"
 tmux_conf_theme_pane_border="$tmux_conf_theme_colour_2"
-tmux_conf_theme_pane_active_border="$tmux_conf_theme_colour_4"
+tmux_conf_theme_pane_active_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_4}"
 %if #{>=:#{version},3.2}
-tmux_conf_theme_pane_active_border="#{?pane_in_mode,$tmux_conf_theme_colour_9,#{?synchronize-panes,$tmux_conf_theme_colour_16,$tmux_conf_theme_colour_4}}"
+tmux_conf_theme_pane_active_border="#{?pane_in_mode,$tmux_conf_theme_colour_9,#{?synchronize-panes,$tmux_conf_theme_colour_16,#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_4}}}"
 %endif
 
 # pane indicator colours (when you hit <prefix> + q)
@@ -384,6 +391,25 @@ set -g mouse on
 # force Vi mode
 set -g status-keys vi
 set -g mode-keys vi
+
+# -- per-pane labels & colours -------------------------------------------------
+# A label chip along the top border of every pane, so panes stay distinguishable
+# across many splits. The chip text comes from the per-pane user option
+# @pane_label and its colour from @pane_color:
+#   - @pane_label: set by fish to the issued command on each prompt (see
+#     conf.d/pane_label.fish), and overridden to "claude | <name>" by the Claude
+#     Code pane-name Stop hook (see ~/.claude/hooks/pane-name.sh).
+#   - @pane_color: a random palette colour assigned to each pane on creation
+#     (see scripts/pane-color.sh).
+# Until those are set, the chip falls back to the running command name on a
+# neutral colour. Dark text stays legible because the palette is all bright.
+set -g pane-border-status top
+set -g pane-border-format " #[fg=colour232,bg=#{?@pane_color,#{@pane_color},colour245}] #{?@pane_label,#{@pane_label},#{pane_current_command}} #[default]"
+
+# assign a random label colour to every newly created pane
+set-hook -g after-new-session  "run-shell -b \"~/.config/tmux/scripts/pane-color.sh '#{pane_id}'\""
+set-hook -g after-new-window   "run-shell -b \"~/.config/tmux/scripts/pane-color.sh '#{pane_id}'\""
+set-hook -g after-split-window "run-shell -b \"~/.config/tmux/scripts/pane-color.sh '#{pane_id}'\""
 
 # pop — popup pickers that switch the tmux session via switch-client.
 bind-key -r p display-popup -E -w 80% -h 60% "pop select"
