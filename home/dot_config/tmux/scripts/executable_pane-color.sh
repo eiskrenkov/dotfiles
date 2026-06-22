@@ -15,7 +15,14 @@ if tmux show-options -p -t "$pane" @pane_color 2>/dev/null | grep -q .; then
 fi
 
 # Bright/pastel palette — dark chip text (fg=colour232) stays legible on each.
-palette=(203 209 215 221 227 191 156 120 86 87 81 117 147 183 219 213 212 210 180 159)
+# Stored as hex (not colourNNN) so the value is consumable verbatim by both
+# tmux's pane-border-format and fish's set_color, which colours the prompt
+# chevrons to match the chip (see functions/fish_prompt.fish).
+palette=(
+  "#ff5f5f" "#ff875f" "#ffaf5f" "#ffd75f" "#ffff5f" "#d7ff5f" "#afff87"
+  "#87ff87" "#5fffd7" "#5fffff" "#5fd7ff" "#87d7ff" "#afafff" "#d7afff"
+  "#ffafff" "#ff87ff" "#ff87d7" "#ff8787" "#d7af87" "#afffff"
+)
 idx=$(( RANDOM % ${#palette[@]} ))
 
-tmux set-option -p -t "$pane" @pane_color "colour${palette[$idx]}"
+tmux set-option -p -t "$pane" @pane_color "${palette[$idx]}"

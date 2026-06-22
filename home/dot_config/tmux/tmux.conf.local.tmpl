@@ -122,16 +122,27 @@ tmux_conf_theme_colour_17="#e4e4e4"   # white
 #tmux_conf_theme_colour_17="colour15"
 
 # window style
-tmux_conf_theme_window_fg="default"
+# Inactive panes are dimmed (muted grey fg) so the focused pane stands out by
+# brightness rather than by border colour — necessary because every pane's
+# border is now tinted with its own chip colour (see tmux_conf_theme_pane_border
+# below), which removes the focused/unfocused distinction from the border alone.
+# tmux has no true opacity; fading the foreground is the terminal equivalent.
+# Bg stays "default" so full-screen apps in inactive panes aren't recoloured.
+tmux_conf_theme_window_fg="$tmux_conf_theme_colour_3"   # muted grey
 tmux_conf_theme_window_bg="default"
 
 # highlight focused pane, possible values are:
 #   - true
 #   - false (default)
-tmux_conf_theme_highlight_focused_pane=false
+# Enabled so the active pane gets its own (full-brightness) style instead of
+# inheriting the dimmed window style above.
+tmux_conf_theme_highlight_focused_pane=true
 
-# focused pane colours:
-tmux_conf_theme_focused_pane_bg="$tmux_conf_theme_colour_2"
+# focused pane colours: pin the active pane to the bright white theme colour
+# (not "default" — the terminal default renders greyish here, which dimmed the
+# active pane too) so its text looks exactly as it did before the dimming.
+tmux_conf_theme_focused_pane_fg="$tmux_conf_theme_colour_7"   # white
+tmux_conf_theme_focused_pane_bg="default"
 
 # pane border style, possible values are:
 #   - thin (default)
@@ -139,14 +150,14 @@ tmux_conf_theme_focused_pane_bg="$tmux_conf_theme_colour_2"
 tmux_conf_theme_pane_border_style=thin
 
 # pane borders colours:
-# The active pane's border matches that pane's label-chip colour (@pane_color,
-# set per pane by scripts/pane-color.sh) so the focused frame and its chip share
-# a hue. Copy-mode (yellow) and synchronize-panes (red) still take precedence,
-# and panes without a colour yet fall back to the usual blue. Inactive borders
-# stay neutral grey so the focused pane still stands out — to colour *every*
-# pane's border with its own chip colour instead, change the line below to:
-#   tmux_conf_theme_pane_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_2}"
-tmux_conf_theme_pane_border="$tmux_conf_theme_colour_2"
+# Every pane's border matches that pane's own label-chip colour (@pane_color,
+# set per pane by scripts/pane-color.sh) so each frame shares a hue with its
+# chip — active and inactive alike. Copy-mode (yellow) and synchronize-panes
+# (red) still take precedence on the active border, and panes without a colour
+# yet fall back to neutral grey (inactive) / blue (active). Because active and
+# inactive borders now carry the same colour, focus is shown by dimming the
+# inactive panes' contents instead (see tmux_conf_theme_window_fg above).
+tmux_conf_theme_pane_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_2}"
 tmux_conf_theme_pane_active_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_4}"
 %if #{>=:#{version},3.2}
 tmux_conf_theme_pane_active_border="#{?pane_in_mode,$tmux_conf_theme_colour_9,#{?synchronize-panes,$tmux_conf_theme_colour_16,#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_4}}}"
@@ -201,7 +212,11 @@ tmux_conf_theme_terminal_title="#S"
 tmux_conf_theme_window_status_fg="$tmux_conf_theme_colour_3"
 tmux_conf_theme_window_status_bg="$tmux_conf_theme_colour_1"
 tmux_conf_theme_window_status_attr="none"
-tmux_conf_theme_window_status_format="#I #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
+# Window title shows the live pane count (#{window_panes}) instead of the window
+# name (#W) — names are auto-set to whatever ran last and read as noise. tmux
+# re-evaluates #{window_panes} on every status redraw, and splitting/killing a
+# pane forces an immediate redraw, so the count updates the moment it changes.
+tmux_conf_theme_window_status_format="#I #{window_panes} panes#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_format="#{circled_window_index} #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_format="#I #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,🔔,}#{?window_zoomed_flag,🔍,}"
 
@@ -218,7 +233,7 @@ tmux_conf_theme_window_status_format="#I #W#{?#{||:#{window_bell_flag},#{window_
 tmux_conf_theme_window_status_current_fg="$tmux_conf_theme_colour_1"
 tmux_conf_theme_window_status_current_bg="$tmux_conf_theme_colour_4"
 tmux_conf_theme_window_status_current_attr="bold"
-tmux_conf_theme_window_status_current_format="#I #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
+tmux_conf_theme_window_status_current_format="#I #{window_panes} panes#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_current_format="#{circled_window_index} #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_current_format="#I #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,🔔,}#{?window_zoomed_flag,🔍,}"
 
@@ -274,7 +289,9 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{uptime_s}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_status_left=" #S | #(gitmux -cfg $HOME/.gitmux.conf #{pane_current_path})"
+# Git branch now lives on each pane's label chip (see conf.d/pane_label.fish),
+# so the left status only carries the session name.
+tmux_conf_theme_status_left=" #S "
 tmux_conf_theme_status_right=" #{hostname} "
 # tmux_conf_theme_status_right="#(gitmux -cfg $HOME/.gitmux.conf #{pane_current_path})"
 
@@ -396,11 +413,12 @@ set -g mode-keys vi
 # A label chip along the top border of every pane, so panes stay distinguishable
 # across many splits. The chip text comes from the per-pane user option
 # @pane_label and its colour from @pane_color:
-#   - @pane_label: set by fish to the issued command on each prompt (see
-#     conf.d/pane_label.fish), and overridden to "claude | <name>" by the Claude
-#     Code pane-name Stop hook (see ~/.claude/hooks/pane-name.sh).
-#   - @pane_color: a random palette colour assigned to each pane on creation
-#     (see scripts/pane-color.sh).
+#   - @pane_label: set by fish to "<short cwd>  <branch> - <cmd>" on each prompt
+#     (see conf.d/pane_label.fish), with "| <name>" appended by the Claude Code
+#     pane-name Stop hook (see ~/.claude/hooks/pane-name.sh).
+#   - @pane_color: a random hex palette colour assigned to each pane on creation
+#     (see scripts/pane-color.sh). fish also reads it to tint the prompt
+#     chevrons to match the chip (see functions/fish_prompt.fish).
 # Until those are set, the chip falls back to the running command name on a
 # neutral colour. Dark text stays legible because the palette is all bright.
 set -g pane-border-status top
