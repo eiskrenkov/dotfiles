@@ -9,6 +9,11 @@ unread_notifications_enabled = true
 [worktree]
 unread_notifications_enabled = true
 
+[effort.claude]
+heavy = [{ model = "opus", reasoning = "xhigh" }]
+standard = [{ model = "opus", reasoning = "high" }]
+light = [{ model = "sonnet", reasoning = "high" }]
+
 [[worktree.commands]]
 key = "ctrl+a"
 label = "new"
