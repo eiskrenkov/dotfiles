@@ -4,9 +4,9 @@
 #
 # Fires the moment a prompt is submitted, before the model replies. On the first
 # prompt of a session it asks haiku for a short title, then:
-#   - sets the pane's @pane_label to "<base> | <title>" (<base> is whatever
-#     launched claude, usually "claude"), rendered as a chip on the pane's top
-#     border (see tmux.conf.local); and
+#   - sets the pane's @pane_label to "<base> | <title>" (<base> is whatever the
+#     fish preexec hook set, usually "<short cwd> - claude"), rendered as a chip
+#     on the pane's top border (see tmux.conf.local); and
 #   - appends a custom-title record to the session transcript — the same format
 #     `/rename` uses — so `claude --resume` shows the same <title>.
 #
@@ -48,7 +48,8 @@ Request: $ctx"
     exit 0
   fi
 
-  # 1) Pane label chip: "<base> | <title>".
+  # 1) Pane label chip: "<base> | <title>". <base> is "<short cwd> - claude" as
+  #    set by the fish preexec hook; preserve it and only append the title.
   base=$(tmux show-options -p -t "$pane" -v @pane_label 2>/dev/null)
   base="${base%% | *}"
   [ -n "$base" ] || base="claude"
