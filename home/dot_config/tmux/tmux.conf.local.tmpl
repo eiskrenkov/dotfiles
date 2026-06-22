@@ -440,6 +440,11 @@ set-hook -g 'client-session-changed[100]' "run-shell -b \"~/.config/tmux/scripts
 # interactive fzf tools and popups never nest inside the palette's own popup.
 bind-key P run-shell -b "~/.config/tmux/scripts/palette-dispatch.sh '#{pane_id}' '#{pane_current_path}'" \; display-popup -E -w 70% -h 70% -d "#{pane_current_path}" "fish -c command_palette"
 
+# reload — override Oh my tmux!'s stock prefix + r so the keybind and the command
+# palette's "reload" entry share one source: the tmux-reload fish function, the
+# exact same code path the palette invokes, so the two can't drift.
+bind -N "Reload the tmux configuration" r run-shell -b "fish -c 'tmux-reload \"#{pane_current_path}\"'"
+
 # lazygit
 bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "lazygit"
 
