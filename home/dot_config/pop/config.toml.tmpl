@@ -1,0 +1,39 @@
+includes = [
+  {{ if .tds }}"~/.config/pop/tds-config.toml",{{ end }}
+  {{ if .personal }}"~/.config/pop/personal-config.toml",{{ end }}
+]
+
+projects = [
+    { path = "~/.local/share/chezmoi", display_depth = 1 },
+
+    { path = "~/dev", display_depth = 1 },
+    { path = "~/dev/*", display_depth = 1 }
+]
+
+exclude_current_session = false
+exclude_current_dir = false
+disambiguation_strategy = ""
+quick_access_modifier = ""
+
+[project]
+unread_notifications_enabled = true
+
+[worktree]
+unread_notifications_enabled = true
+
+[effort.claude]
+heavy = [{ model = "opus", reasoning = "xhigh" }]
+standard = [{ model = "opus", reasoning = "high" }]
+light = [{ model = "sonnet", reasoning = "high" }]
+
+[[worktree.commands]]
+key = "ctrl+a"
+label = "new"
+command = "create-worktree"
+exit = true
+
+[dashboard]
+# When you select a pane from the dashboard, pop maximizes (zooms) it within
+# its window. Set this to false to focus the pane in place instead, keeping the
+# window's split layout visible (e.g. an editor above, an agent below).
+zoom_on_switch = false # default is true

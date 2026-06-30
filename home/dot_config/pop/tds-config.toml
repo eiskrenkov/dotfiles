@@ -1,0 +1,7 @@
+[[projects]]
+  path = "~/tds"
+  display_depth = 1
+
+[[projects]]
+  path = "~/tds/*"
+  display_depth = 1
