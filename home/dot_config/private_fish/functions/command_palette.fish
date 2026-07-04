@@ -27,9 +27,10 @@ function command_palette --description "fzf modal of dotfile features (tmux pref
     #    id         label                                   keybind  type    command
     __cp checkout  "Git · smart checkout (branch picker)"   ""       popup   "gco"
     __cp wtcreate  "Git · create worktree (branch picker)"  ""       popup   "create-worktree"
-    __cp log       "Git · browse commit log"                ""       popup   "glo"
+    __cp log       "Git · browse commit log"                "⌘L"     popup   "glo"
     __cp pr        "Git · push & open pull request"         ""       pane    "ggpr"
     __cp syncmain  "Git · sync current branch with master"  ""       pane    "gup"
+    __cp cpbranch  "Git · copy current branch name"         ""       func    "copy-current-branch"
     __cp lazygit   "Git · lazygit"                          "⌘G"     popup   "lazygit"
     __cp smerge    "Git · open Sublime Merge for repo"      "⌘⇧M"    func    "open-in-sublime-merge"
     __cp cursor    "Editor · open / focus Cursor"           "⌘⇧E"    script  "$HOME/.config/tmux/scripts/sync-cursor.sh"

@@ -6,7 +6,7 @@
   },
   {
     "key": "shift+cmd+m",
-    "command": "history-in-sublime-merge.openRepository"
+    "command": "sublime-merge.openRepository"
   },
   {
     "key": "shift+cmd+j",

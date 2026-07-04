@@ -65,6 +65,9 @@ keybind = cmd+u=text:\x02u
 # Send ^B + g on Cmd+G
 keybind = cmd+g=text:\x02g
 
+# Send ^B + l on Cmd+L (browse git log in an fzf popup)
+keybind = cmd+l=text:\x02l
+
 # Send ^B + ESC [A on Cmd+Shift+Up
 keybind = cmd+shift+up=text:\x02\x1B[A
 

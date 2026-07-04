@@ -6,7 +6,7 @@
   },
   {
     "key": "shift+cmd+m",
-    "command": "history-in-sublime-merge.viewFileHistory"
+    "command": "sublime-merge.viewFileHistory"
   },
   {
     "key": "shift+cmd+j",

@@ -48,12 +48,22 @@ Request: $ctx"
     exit 0
   fi
 
-  # 1) Pane label chip: "<base> | <title>". <base> is "<short cwd> - claude" as
-  #    set by the fish preexec hook; preserve it and only append the title.
+  # 1) Pane label chip: "<base> | <title>". <base> is the fish-set
+  #    "<path> → ⎇ <branch> → claude" prefix (with embedded #[…] segment styles);
+  #    preserve it and only append the title.
   base=$(tmux show-options -p -t "$pane" -v @pane_label 2>/dev/null)
   base="${base%% | *}"
   [ -n "$base" ] || base="claude"
-  tmux set-option -p -t "$pane" @pane_label "$base | $name" 2>/dev/null
+  # Append the session name as its own info type: a plain " | " separator, then
+  # the name in italic but regular weight — distinct from the plain path, yet
+  # lighter than the bold <cmd> segment. Keep the literal " | " (space-pipe-space)
+  # intact so the %%-strip above still finds the boundary on any re-run; the
+  # format's trailing #[default] clears the style.
+  tmux set-option -p -t "$pane" @pane_label "$base#[nobold,noitalics] | #[nobold,italics]$name" 2>/dev/null
+  # @pane_cmd is the bare label tmux shows for the window when this is its active
+  # pane (see tmux.conf.local's window_status_format). For a claude pane that is
+  # just the session name — "fix-tmux-labels", not "claude | fix-tmux-labels".
+  tmux set-option -p -t "$pane" @pane_cmd "$name" 2>/dev/null
   tmux refresh-client -S 2>/dev/null
   log "worker: set pane=$pane label='$base | $name'"
 

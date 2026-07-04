@@ -1,0 +1,41 @@
+{{ if (eq .chezmoi.os "darwin") -}}
+
+#!/bin/bash
+
+# Installs the locally-patched "Sublime Merge" extension from vendor/ into
+# Cursor (and VS Code, if present) via the editor CLI, so it is fully managed
+# by these dotfiles with no manual clicking.
+#
+# The extension lives outside the chezmoi root (top-level vendor/), so it is
+# never copied into $HOME on apply -- it is only used as the install source
+# here. This script re-runs whenever the packaged .vsix changes.
+{{- $vsix := joinPath .chezmoi.sourceDir ".." "vendor" "vscode-plugins" "sublime-merge" "sublime-merge-1.3.4.vsix" -}}
+{{- $sha := output "shasum" "-a" "256" $vsix | trim | splitList "  " | first }}
+#
+# vsix sha256: {{ $sha }}
+
+set -euo pipefail
+
+vsix="{{ $vsix }}"
+installed=0
+
+for editor in cursor code; do
+  if command -v "$editor" >/dev/null 2>&1; then
+    # Remove any older ids of this extension so they can't shadow or
+    # double-register commands alongside our fork (local.sublime-merge).
+    # Harmless if not installed.
+    for old in adhamu.history-in-sublime-merge local.history-in-sublime-merge; do
+      "$editor" --uninstall-extension "$old" >/dev/null 2>&1 || true
+    done
+
+    echo "Installing patched Sublime Merge into ${editor}..."
+    "$editor" --install-extension "$vsix" --force
+    installed=1
+  fi
+done
+
+if [ "$installed" -eq 0 ]; then
+  echo "Neither cursor nor code found on PATH; skipping extension install."
+fi
+
+{{ end -}}

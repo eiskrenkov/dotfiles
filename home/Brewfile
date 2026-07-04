@@ -43,6 +43,7 @@ brew "rtk"                                # https://github.com/rtk-ai/rtk
 brew "glebglazov/tap/pop", args: ["HEAD"] # https://github.com/glebglazov/pop
 brew "opencode"
 brew "libyaml"                            # required for compiling psych by ruby-build
+brew "bundletool" if tds?
 
 if personal?
   brew "asc"
@@ -82,6 +83,7 @@ cask "gcloud-cli" if personal?
 
 if tds?
   cask "keybase"
+  cask "localsend"
 end
 
 if personal?

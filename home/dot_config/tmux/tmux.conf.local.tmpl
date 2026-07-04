@@ -123,11 +123,11 @@ tmux_conf_theme_colour_17="#e4e4e4"   # white
 
 # window style
 # Inactive panes are dimmed (muted grey fg) so the focused pane stands out by
-# brightness rather than by border colour — necessary because every pane's
-# border is now tinted with its own chip colour (see tmux_conf_theme_pane_border
-# below), which removes the focused/unfocused distinction from the border alone.
-# tmux has no true opacity; fading the foreground is the terminal equivalent.
-# Bg stays "default" so full-screen apps in inactive panes aren't recoloured.
+# brightness as well as by its coloured border — only the focused pane's border
+# carries its chip colour (see tmux_conf_theme_pane_border below), so focus is
+# signalled two ways. tmux has no true opacity; fading the foreground is the
+# terminal equivalent. Bg stays "default" so full-screen apps in inactive panes
+# aren't recoloured.
 tmux_conf_theme_window_fg="$tmux_conf_theme_colour_3"   # muted grey
 tmux_conf_theme_window_bg="default"
 
@@ -150,14 +150,14 @@ tmux_conf_theme_focused_pane_bg="default"
 tmux_conf_theme_pane_border_style=thin
 
 # pane borders colours:
-# Every pane's border matches that pane's own label-chip colour (@pane_color,
-# set per pane by scripts/pane-color.sh) so each frame shares a hue with its
-# chip — active and inactive alike. Copy-mode (yellow) and synchronize-panes
-# (red) still take precedence on the active border, and panes without a colour
-# yet fall back to neutral grey (inactive) / blue (active). Because active and
-# inactive borders now carry the same colour, focus is shown by dimming the
-# inactive panes' contents instead (see tmux_conf_theme_window_fg above).
-tmux_conf_theme_pane_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_2}"
+# Only the focused pane's border carries its label-chip colour (@pane_color, set
+# per pane by scripts/pane-color.sh, see tmux_conf_theme_pane_active_border
+# below); inactive panes fall back to neutral grey so colour itself marks focus.
+# Copy-mode (yellow) and synchronize-panes (red) still take precedence on the
+# active border, and a pane without a colour yet falls back to blue when active.
+# Inactive panes are also dimmed (see tmux_conf_theme_window_fg above), so focus
+# reads from both border hue and brightness.
+tmux_conf_theme_pane_border="$tmux_conf_theme_colour_2"
 tmux_conf_theme_pane_active_border="#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_4}"
 %if #{>=:#{version},3.2}
 tmux_conf_theme_pane_active_border="#{?pane_in_mode,$tmux_conf_theme_colour_9,#{?synchronize-panes,$tmux_conf_theme_colour_16,#{?@pane_color,#{@pane_color},$tmux_conf_theme_colour_4}}}"
@@ -183,8 +183,16 @@ tmux_conf_theme_mode_bg="$tmux_conf_theme_colour_5"
 tmux_conf_theme_mode_attr="bold"
 
 # status line style
+# bg is Ghostty's own default background (#282c34, from `ghostty +show-config
+# --default`) rather than the dark colour_1 fill. This makes the bar blend
+# seamlessly with the terminal — visually "no background" — while still being a
+# concrete colour, which matters because Oh my tmux! bakes this value into the
+# fg of the powerline window separators (the  triangles): with bg=default those
+# triangles resolve to the terminal *foreground* and render as mismatched blocks;
+# with a concrete colour they blend. If you change Ghostty's theme, update this
+# (and the two matching bg=#282c34 in status-format[1] below) to the new bg.
 tmux_conf_theme_status_fg="$tmux_conf_theme_colour_3"
-tmux_conf_theme_status_bg="$tmux_conf_theme_colour_1"
+tmux_conf_theme_status_bg="#282c34"
 tmux_conf_theme_status_attr="none"
 
 # terminal title
@@ -210,13 +218,22 @@ tmux_conf_theme_terminal_title="#S"
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_window_status_fg="$tmux_conf_theme_colour_3"
-tmux_conf_theme_window_status_bg="$tmux_conf_theme_colour_1"
+tmux_conf_theme_window_status_bg="#282c34"   # Ghostty default bg — blends the bar & powerline separators (see status-style note)
 tmux_conf_theme_window_status_attr="none"
-# Window title shows the live pane count (#{window_panes}) instead of the window
-# name (#W) — names are auto-set to whatever ran last and read as noise. tmux
-# re-evaluates #{window_panes} on every status redraw, and splitting/killing a
-# pane forces an immediate redraw, so the count updates the moment it changes.
-tmux_conf_theme_window_status_format="#I #{window_panes} panes#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
+# Window title shows what its active pane is doing — not the window name (#W,
+# auto-set to whatever ran last = noise) nor a bare pane count. The label is the
+# active pane's @pane_cmd: the *bare* command identity, with the path/branch
+# prefix that the pane chip carries stripped off. It is set by fish on each
+# prompt (conf.d/pane_label.fish) and overridden to just the Claude session name
+# by the pane-name hook (~/.claude/hooks/pane-name.sh), so a claude pane reads as
+# "fix-tmux-labels" rather than "claude | fix-tmux-labels". When no long-running
+# command occupies the pane, @pane_cmd is unset and we fall back to the live
+# #{pane_current_command}. If the window holds more than one pane, " +N" reports
+# how many *other* panes it has (window_panes - 1). tmux re-evaluates the format
+# on every status redraw — and split/kill/focus force an immediate redraw — so
+# the label, the count, and the active-pane selection all track live.
+tmux_conf_theme_window_status_format="#I. #{?@pane_cmd,#{@pane_cmd},#{pane_current_command}}#{?#{>:#{window_panes},1}, +#{e|-:#{window_panes},1},}#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
+#tmux_conf_theme_window_status_format="#I #{window_panes} panes#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_format="#{circled_window_index} #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_format="#I #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,🔔,}#{?window_zoomed_flag,🔍,}"
 
@@ -233,7 +250,9 @@ tmux_conf_theme_window_status_format="#I #{window_panes} panes#{?#{||:#{window_b
 tmux_conf_theme_window_status_current_fg="$tmux_conf_theme_colour_1"
 tmux_conf_theme_window_status_current_bg="$tmux_conf_theme_colour_4"
 tmux_conf_theme_window_status_current_attr="bold"
-tmux_conf_theme_window_status_current_format="#I #{window_panes} panes#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
+# Same label logic as window_status_format above — see that comment.
+tmux_conf_theme_window_status_current_format="#I. #{?@pane_cmd,#{@pane_cmd},#{pane_current_command}}#{?#{>:#{window_panes},1}, +#{e|-:#{window_panes},1},}#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
+#tmux_conf_theme_window_status_current_format="#I #{window_panes} panes#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_current_format="#{circled_window_index} #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,!,}#{?window_zoomed_flag,Z,}"
 #tmux_conf_theme_window_status_current_format="#I #W#{?#{||:#{window_bell_flag},#{window_zoomed_flag}}, ,}#{?window_bell_flag,🔔,}#{?window_zoomed_flag,🔍,}"
 
@@ -289,10 +308,15 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{uptime_s}
 #     - #{username}
 #     - #{username_ssh}
-# Git branch now lives on each pane's label chip (see conf.d/pane_label.fish),
-# so the left status only carries the session name.
-tmux_conf_theme_status_left=" #S "
-tmux_conf_theme_status_right=" #{hostname} "
+# Left status is empty: the git branch lives on each pane's label chip (see
+# conf.d/pane_label.fish) and the session name now lives on the second status
+# line, highlighted within the full session list (see status-format[1] in the
+# user customizations section), so there's nothing left for the left chip to
+# carry.
+tmux_conf_theme_status_left=""
+# Right status is intentionally empty — the hostname (#{hostname}) added nothing
+# on a single-machine setup and just took up space.
+tmux_conf_theme_status_right=""
 # tmux_conf_theme_status_right="#(gitmux -cfg $HOME/.gitmux.conf #{pane_current_path})"
 
 # status left style
@@ -413,9 +437,13 @@ set -g mode-keys vi
 # A label chip along the top border of every pane, so panes stay distinguishable
 # across many splits. The chip text comes from the per-pane user option
 # @pane_label and its colour from @pane_color:
-#   - @pane_label: set by fish to "<short cwd>  <branch> - <cmd>" on each prompt
-#     (see conf.d/pane_label.fish), with "| <name>" appended by the Claude Code
-#     pane-name Stop hook (see ~/.claude/hooks/pane-name.sh).
+#   - @pane_label: set by fish to "<short cwd> → ⎇ <branch> → <cmd>" on each
+#     prompt (see conf.d/pane_label.fish), with " | <name>" appended by the
+#     Claude Code pane-name Stop hook (see ~/.claude/hooks/pane-name.sh). It
+#     carries embedded tmux #[…] styles per segment (path plain, branch italic,
+#     <cmd> bold, claude name italic at regular weight) so the info types read
+#     distinctly; the #[default] at the end of pane-border-format below clears
+#     them off the chip.
 #   - @pane_color: a random hex palette colour assigned to each pane on creation
 #     (see scripts/pane-color.sh). fish also reads it to tint the prompt
 #     chevrons to match the chip (see functions/fish_prompt.fish).
@@ -429,10 +457,30 @@ set-hook -g after-new-session  "run-shell -b \"~/.config/tmux/scripts/pane-color
 set-hook -g after-new-window   "run-shell -b \"~/.config/tmux/scripts/pane-color.sh '#{pane_id}'\""
 set-hook -g after-split-window "run-shell -b \"~/.config/tmux/scripts/pane-color.sh '#{pane_id}'\""
 
+# -- second status line: all sessions ----------------------------------------
+# A row beneath the window list that lists every session the way the row above
+# lists windows. With status-position at the bottom (the default), status-format[0]
+# is the existing windows line and status-format[1] renders directly below it.
+# Oh my tmux!'s apply logic only sets status-left/right and window-status-*, never
+# the line count or status-format, so this survives a reload.
+#
+# #{S:...} (tmux >= 3.0) loops over every session. The attached session is
+# highlighted like the current window — dark text on the blue chip (colour_4
+# #00afff) — and the rest are muted grey (colour_3 #8a8a8a) on the Ghostty
+# default bg (#282c34), matching the first line. #{client_session} is the
+# session the *rendering* client is
+# on, so the highlight stays correct per client. "·N" appends the window count
+# when a session has more than one, mirroring the " +N" pane count on the window
+# row above. Commas inside #{?...} are escaped as #, since comma is its argument
+# separator; colours are literal hex because the $tmux_conf_theme_colour_N shell
+# vars aren't in scope for raw tmux commands (same as pane-border-format above).
+set -g status 2
+set -g status-format[1] "#[fg=#8a8a8a,bg=#282c34,align=left] #{S:#{?#{==:#{session_name},#{client_session}},#[fg=#080808#,bg=#00afff#,bold] #{session_name}#{?#{>:#{session_windows},1},·#{session_windows},} #[default#,fg=#8a8a8a#,bg=#282c34],#[fg=#8a8a8a] #{session_name}#{?#{>:#{session_windows},1},·#{session_windows},} }}"
+
 # pop — popup pickers that switch the tmux session via switch-client.
-bind-key -r p display-popup -E -w 80% -h 60% "pop select"
-bind-key -r o display-popup -E -w 60% -h 60% "pop worktree --switch"
-bind-key -r i display-popup -E -w 60% -h 60% "pop dashboard"
+bind-key -r p display-popup -E -w 90% -h 60% "pop select"
+bind-key -r o display-popup -E -w 90% -h 60% "pop worktree --switch"
+bind-key -r i display-popup -E -w 90% -h 60% "pop dashboard"
 
 {{ if .tds -}}
 # Pair the Cursor editor (left half of the screen) to the active project so it
@@ -465,6 +513,18 @@ bind -N "Reload the tmux configuration" r run-shell -b "fish -c 'tmux-reload \"#
 
 # lazygit
 bind g display-popup -d "#{pane_current_path}" -h 90% -w 90% -E "lazygit"
+
+# prefix + l (Ghostty cmd+l): browse the git log in an fzf popup — runs the glo
+# fish function. CMD_PALETTE_POPUP=1 makes glo use plain fzf instead of its
+# floating "fzf --tmux" popup, which would try to nest a second popup inside this
+# one. NB: keep shell command-substitution syntax out of this file's comments.
+# oh-my-tmux reloads via "cut -c3- tmux.conf.local | sh", which strips the
+# leading "# " and executes every line, so command substitution written in a
+# comment actually runs on reload (this very line once opened a stray fzf). This is
+# the exact invocation the command palette's "browse commit log" entry uses (see
+# palette-dispatch.sh), so the keybind and the palette can't drift. Overrides Oh
+# my tmux!'s stock prefix + l (last-window).
+bind l display-popup -E -d "#{pane_current_path}" -w 90% -h 80% -e CMD_PALETTE_POPUP=1 "fish -c glo"
 
 # scroll pane up/down (triggered from ghostty's cmd+up / cmd+down)
 bind-key -r < copy-mode -u

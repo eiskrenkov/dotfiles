@@ -8,8 +8,8 @@ alias grrm='git remote remove'
 alias ga='git add'
 alias gaa='git add -A'
 alias gst='git status'
-alias ggpush='git push origin (current_branch)'
-alias ggpull='git pull origin (current_branch)'
+alias ggpush='git push origin (current-branch)'
+alias ggpull='git pull origin (current-branch)'
 alias gp='git push'
 alias gpo='git push origin'
 alias gpf!='git push --force'
@@ -54,4 +54,5 @@ alias gd='git diff'
 
 alias glg='git log --stat'
 alias glgga='git log --graph --decorate --all'
-# glo is a function (git log browser in an fzf popup)
+
+alias cld='claude --dangerously-skip-permissions'
