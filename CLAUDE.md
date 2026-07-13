@@ -1,5 +1,7 @@
 # chezmoi dotfiles — working notes
 
+Chezmoi docs - https://www.chezmoi.io/
+
 This is the source repo for the user's chezmoi-managed dotfiles. `.chezmoiroot`
 is `home/`, so all managed files live under `home/`.
 

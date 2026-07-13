@@ -36,6 +36,7 @@ function command_palette --description "fzf modal of dotfile features (tmux pref
     __cp cursor    "Editor · open / focus Cursor"           "⌘⇧E"    script  "$HOME/.config/tmux/scripts/sync-cursor.sh"
     __cp finder    "Finder · reveal current folder"         ""       func    "reveal-in-finder"
     __cp cppath    "Finder · copy current folder path"      ""       func    "copy-current-path"
+    __cp skills    "Claude · reveal skills folder"          ""       func    "reveal-skills"
     __cp ports     "Tmux · jump to a listening port"        ""       popup   "ports"
     __cp reload    "Tmux · reload configuration"            ""       func    "tmux-reload"
     __cp project   "Pop · switch project"                   "⌘P"     popup   "pop select"
