@@ -76,6 +76,7 @@ cask "orbstack"
 cask "bartender"
 cask "cursor"
 cask "ghostty"
+cask "hammerspoon"                        # native automation; powers Claude Code attention notifications
 cask "claude"
 cask "cloudflare-warp"
 cask "slack"
