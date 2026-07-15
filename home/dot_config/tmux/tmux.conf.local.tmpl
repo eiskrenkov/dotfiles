@@ -443,7 +443,10 @@ set -g mode-keys vi
 #     carries embedded tmux #[…] styles per segment (path plain, branch italic,
 #     <cmd> bold, claude name italic at regular weight) so the info types read
 #     distinctly; the #[default] at the end of pane-border-format below clears
-#     them off the chip.
+#     them off the chip. When the pane is shelled into a Kubernetes pod
+#     (`kubectl exec`/`attach`), the <cmd> segment becomes a distinct blue "☸
+#     <pod>" badge instead, so a remote pod session is never mistaken for a local
+#     shell.
 #   - @pane_color: a random hex palette colour assigned to each pane on creation
 #     (see scripts/pane-color.sh). fish also reads it to tint the prompt
 #     chevrons to match the chip (see functions/fish_prompt.fish).

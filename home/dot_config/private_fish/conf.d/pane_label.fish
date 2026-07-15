@@ -26,6 +26,14 @@
 #   pnpm run dev                       -> "~/work/app → ⎇ main → pnpm run dev"
 #   rails server                       -> "~/work/app → ⎇ main → rails server"
 #   git commit -m "..."                -> "~/work/app → ⎇ main"  (cmd dropped)
+#   kubectl exec -it my-pod -- bash    -> "~/work/app → ⎇ main → ☸ my-pod"
+#
+# When a command connects to a Kubernetes pod (`kubectl exec`/`attach` into a
+# pod), the <cmd> segment becomes a distinct ☸ pod badge — a saturated k8s-blue
+# chip showing "☸ <pod>", breaking out of the dark-text-on-pastel scheme the
+# other segments share — so a shell running inside a remote pod is never mistaken
+# for a local one. The pod name is parsed from the command line by
+# __pane_k8s_target; see the preexec handler and s_k8s in __pane_label_render.
 #
 # Rendering is driven off the fish_prompt event (fired after each command
 # completes, before the prompt is drawn) so the path and branch are always
@@ -64,6 +72,52 @@ function __pane_cmd_is_long_running --argument-names cmdline
     return 1
 end
 
+# -- kubectl exec/attach: pane connected to a k8s pod --------------------------
+# Flags on `kubectl exec`/`attach` (and kubectl's global flags) that consume the
+# *next* token as their value, so it isn't mistaken for the pod name. Long flags
+# written as --flag=value are self-contained and need no entry here.
+set -g __pane_k8s_value_flags -c --container -n --namespace --context --cluster \
+    --user --as --kubeconfig --request-timeout --pod-running-timeout -f --filename
+
+# Echo the pod/resource a `kubectl exec`/`attach` command targets, or return
+# non-zero with no output when the command line isn't one — used by the preexec
+# handler to give k8s-pod sessions their own ☸ badge. Walks the tokens, skipping
+# the program name, the subcommand, flags, and their values, and stops at `--`
+# (everything after it is the command run *inside* the pod). Copes with the
+# subcommand trailing global flags (`kubectl -n prod exec …`) and the pod sitting
+# before or after boolean flags (`kubectl exec my-pod -it -- bash`). Matched on
+# the command line as typed, so the `k` alias for kubectl is recognised too.
+function __pane_k8s_target --argument-names cmdline
+    set -l t
+    for word in (string split -- ' ' $cmdline)
+        test -n "$word"; and set -a t $word
+    end
+    set -q t[1]; or return 1
+    string match -qr '^(kubectl|k)$' -- $t[1]; or return 1
+    contains -- exec $t; or contains -- attach $t; or return 1
+
+    set -l seen_sub 0
+    set -l skip 0
+    for tok in $t[2..-1]
+        if test $skip -eq 1
+            set skip 0
+            continue
+        end
+        test "$tok" = '--'; and break
+        if string match -q -- '-*' $tok
+            contains -- $tok $__pane_k8s_value_flags; and set skip 1
+            continue
+        end
+        if test $seen_sub -eq 0
+            contains -- $tok exec attach; and set seen_sub 1
+            continue
+        end
+        echo $tok
+        return 0
+    end
+    return 1
+end
+
 function __pane_label_render
     test -n "$TMUX_PANE"; or return
 
@@ -78,13 +132,26 @@ function __pane_label_render
     set -l s_plain '#[nobold,noitalics]'
     set -l s_branch '#[nobold,italics]'
     set -l s_cmd '#[bold,noitalics]'
+    # k8s-pod badge: white text on saturated Kubernetes-blue, so a pane shelled
+    # into a remote pod is unmistakable — it deliberately breaks out of the
+    # dark-text-on-pastel scheme the other segments share (set when
+    # __pane_cmd_is_k8s is present; see the preexec handler). It is always the
+    # last segment, so pane-border-format's trailing #[default] closes the badge
+    # and the surrounding spaces are its padding.
+    set -l s_k8s '#[fg=#ffffff,bg=#326ce5,bold]'
 
     set -l label "$s_plain"(prompt_pwd)
 
     set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
     test -n "$branch"; and set label "$label$s_plain → $s_branch⎇ $branch"
 
-    test -n "$__pane_cmd_label"; and set label "$label$s_plain → $s_cmd$__pane_cmd_label"
+    if test -n "$__pane_cmd_label"
+        if set -q __pane_cmd_is_k8s
+            set label "$label$s_plain → $s_k8s $__pane_cmd_label "
+        else
+            set label "$label$s_plain → $s_cmd$__pane_cmd_label"
+        end
+    end
 
     tmux set-option -p -t $TMUX_PANE @pane_label "$label" 2>/dev/null
 
@@ -102,6 +169,21 @@ function __pane_label_render
 end
 
 function __pane_label_on_preexec --on-event fish_preexec
+    # Connected to a k8s pod (kubectl exec/attach into a pod): show a distinct ☸
+    # badge with the pod name so a shell running inside a remote pod is never
+    # mistaken for a local one. Handled ahead of the generic long-running logic
+    # because it needs the pod name and its own styling (see __pane_k8s_target and
+    # s_k8s in __pane_label_render). Like other occupying commands, the badge
+    # lingers after the session exits until a one-shot command replaces it.
+    set -l k8s_pod (__pane_k8s_target $argv[1])
+    if test -n "$k8s_pod"
+        set -g __pane_cmd_is_k8s 1
+        set -g __pane_cmd_label "☸ $k8s_pod"
+        __pane_label_render
+        return
+    end
+    set -e __pane_cmd_is_k8s
+
     if not __pane_cmd_is_long_running $argv[1]
         # One-shot command (cd, ls, git commit, …): drop any stale <cmd> segment
         # so the chip falls back to "<path> → ⎇ <branch>".
