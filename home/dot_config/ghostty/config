@@ -91,3 +91,6 @@ keybind = cmd+shift+m=text:\x02M
 
 # Send ^B + E on Cmd+Shift+E (open/focus Cursor for the current pane's project)
 keybind = cmd+shift+e=text:\x02E
+
+# Send ^B + K on Cmd+Shift+K (open the current pane's repo on GitHub)
+keybind = cmd+shift+k=text:\x02K

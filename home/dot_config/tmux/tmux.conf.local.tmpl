@@ -444,9 +444,9 @@ set -g mode-keys vi
 #     <cmd> bold, claude name italic at regular weight) so the info types read
 #     distinctly; the #[default] at the end of pane-border-format below clears
 #     them off the chip. When the pane is shelled into a Kubernetes pod
-#     (`kubectl exec`/`attach`), the <cmd> segment becomes a distinct blue "☸
-#     <pod>" badge instead, so a remote pod session is never mistaken for a local
-#     shell.
+#     (`kubectl exec`/`attach`, or the `k-goto`/`kg` helper's exec/console), the
+#     <cmd> segment becomes a distinct blue "☸ <pod-or-connection-key>" badge
+#     instead, so a remote pod session is never mistaken for a local shell.
 #   - @pane_color: a random hex palette colour assigned to each pane on creation
 #     (see scripts/pane-color.sh). fish also reads it to tint the prompt
 #     chevrons to match the chip (see functions/fish_prompt.fish).
@@ -596,6 +596,11 @@ bind -N "Open Sublime Merge for the current pane's repo" M run-shell -b "fish -c
 # prefix + E (Ghostty cmd+shift+e): open/focus Cursor for the active pane's
 # project — a manual counterpart to the pop-picker sync (same sync-cursor.sh).
 bind -N "Open/focus Cursor for the current pane's project" E run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"
+
+# prefix + K (Ghostty cmd+shift+k): open the active pane's git repo on GitHub in
+# the browser, if it is one. Runs the open-in-github fish function — the exact
+# same code path the command palette invokes, so the two can't drift.
+bind -N "Open the current pane's repo on GitHub" K run-shell -b "fish -c 'open-in-github \"#{pane_current_path}\"'"
 
 
 # -- custom variables ----------------------------------------------------------

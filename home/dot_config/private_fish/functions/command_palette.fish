@@ -33,6 +33,7 @@ function command_palette --description "fzf modal of dotfile features (tmux pref
     __cp cpbranch  "Git · copy current branch name"         ""       func    "copy-current-branch"
     __cp lazygit   "Git · lazygit"                          "⌘G"     popup   "lazygit"
     __cp smerge    "Git · open Sublime Merge for repo"      "⌘⇧M"    func    "open-in-sublime-merge"
+    __cp github    "Git · open repo on GitHub"              "⌘⇧K"    func    "open-in-github"
     __cp cursor    "Editor · open / focus Cursor"           "⌘⇧E"    script  "$HOME/.config/tmux/scripts/sync-cursor.sh"
     __cp finder    "Finder · reveal current folder"         ""       func    "reveal-in-finder"
     __cp cppath    "Finder · copy current folder path"      ""       func    "copy-current-path"
