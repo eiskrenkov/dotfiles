@@ -5,6 +5,11 @@
 --   hammerspoon://claude-notify?session=<name>&pane=<%id>&message=<text>
 -- and this handler shows a native notification tagged with the tmux session.
 -- Clicking it switches tmux to the exact pane and raises Ghostty.
+--
+-- The notice is also withdrawn when you reach the pane *without* clicking it: a
+-- tmux pane-focus-in hook opens hammerspoon://claude-clear?pane=<%id> whenever a
+-- pane gains focus (see ~/.config/tmux/scripts/claude-notify-clear.sh), so
+-- navigating to the pane in tmux dismisses its notification too.
 
 local TMUX = "/opt/homebrew/bin/tmux"
 
@@ -25,6 +30,20 @@ local function focusPane(session, pane)
   hs.application.launchOrFocus("Ghostty")
 end
 
+-- Pending attention notifications, keyed by tmux pane id (e.g. "%5"), so a later
+-- claude-clear (fired when the pane gains focus in tmux) can withdraw the exact
+-- notice that pane raised. Keying by pane also collapses repeats: a new notice
+-- for a pane withdraws the previous one first, so a pane never stacks duplicates.
+local pending = {}
+
+-- Withdraw and forget any pending notice for a pane (no-op if there is none).
+local function clearPane(pane)
+  if pane and pending[pane] then
+    pending[pane]:withdraw()
+    pending[pane] = nil
+  end
+end
+
 -- URL handler: hammerspoon://claude-notify?session=..&pane=..&message=..
 -- Hammerspoon URL-decodes the query params into `params`.
 hs.urlevent.bind("claude-notify", function(_, params)
@@ -32,14 +51,26 @@ hs.urlevent.bind("claude-notify", function(_, params)
   local pane = params.pane or ""
   local message = params.message or "needs your attention"
 
-  hs.notify.new(function()
+  clearPane(pane) -- replace any notice this pane already has pending
+
+  local n = hs.notify.new(function()
+    clearPane(pane)
     focusPane(session, pane)
   end, {
     title = "Claude Code",
     subTitle = session,
     informativeText = message,
     withdrawAfter = 0, -- stay in Notification Center until clicked or dismissed
-  }):send()
+  })
+  if pane ~= "" then pending[pane] = n end
+  n:send()
+end)
+
+-- URL handler: hammerspoon://claude-clear?pane=..
+-- Fired by the tmux pane-focus-in hook: reaching the pane in tmux withdraws its
+-- pending notice, so you don't have to click the notification to clear it.
+hs.urlevent.bind("claude-clear", function(_, params)
+  clearPane(params.pane or "")
 end)
 
 -- Auto-reload this config when any .lua file under ~/.hammerspoon changes.
