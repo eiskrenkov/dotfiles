@@ -52,10 +52,11 @@
 #
 # NB: preexec sees the command line *as typed*, so aliases are matched by their
 # own name, not what they expand to. `cld` (alias for `claude
-# --dangerously-skip-permissions`) is listed here and normalised back to
-# "claude" for display below, so an aliased launch behaves like a bare `claude`.
+# --dangerously-skip-permissions`) and its model variants `cldo`/`cldf` are
+# listed here and normalised back to "claude" for display below, so an aliased
+# launch behaves like a bare `claude`.
 set -g __pane_long_running_patterns \
-    '^(claude|cld)\b' \
+    '^(claude|cld[of]?)\b' \
     '^(bin/)?(bundle exec )?rails (s|server|c|console)\b' \
     '^bin/(dev|console)\b' \
     '^(pnpm|npm|yarn|bun)( run)? (dev|start|serve|watch|storybook|preview)\b' \
@@ -230,7 +231,7 @@ function __pane_label_on_preexec --on-event fish_preexec
     # Normalise the `cld` alias to "claude" so it reads identically to a bare
     # `claude` on the chip and window label (and the pane-name hook's base ends
     # in "claude", as it does for a direct launch).
-    set -g __pane_cmd_label (string replace -r '^cld\b' claude -- $__pane_cmd_label)
+    set -g __pane_cmd_label (string replace -r '^cld[of]?\b' claude -- $__pane_cmd_label)
     # Render now so the long-running command (claude, rails server, …) shows on
     # the chip while it runs; path/branch may be a beat stale here but the next
     # fish_prompt corrects them.

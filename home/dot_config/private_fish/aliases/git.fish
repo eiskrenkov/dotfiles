@@ -55,4 +55,6 @@ alias gd='git diff'
 alias glg='git log --stat'
 alias glgga='git log --graph --decorate --all'
 
-alias cld='claude --dangerously-skip-permissions'
+alias cld='claude-dangerously-skip-permissions'
+alias cldo='claude-dangerously-skip-permissions-opus'
+alias cldf='claude-dangerously-skip-permissions-fable'
