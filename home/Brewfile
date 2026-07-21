@@ -80,17 +80,18 @@ cask "hammerspoon"                        # native automation; powers Claude Cod
 cask "claude"
 cask "cloudflare-warp"
 cask "slack"
-cask "gcloud-cli" if personal?
 cask "wispr-flow"
 
 if tds?
   cask "keybase"
   cask "localsend"
+  cask "unity-hub"
 end
 
 if personal?
   cask "github-copilot-for-xcode"
   cask "sf-symbols"
+  cask "gcloud-cli"
   cask "chromium"
 end
 
