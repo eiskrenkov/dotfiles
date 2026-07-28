@@ -46,6 +46,7 @@ function command_palette --description "fzf modal of dotfile features (tmux pref
     __cp project   "Pop · switch project"                   "⌘P"     popup   "pop select"
     __cp worktree  "Pop · switch worktree"                  "⌘O"     popup   "pop worktree --switch"
     __cp dashboard "Pop · dashboard"                        "⌘I"     popup   "pop dashboard"
+    __cp queue     "Pop · queue dashboard"                  "⌘⇧I"    popup   "pop queue dashboard"
     __cp czapply   "Chezmoi · apply dotfiles"               ""       pane    "chezmoi apply"
     __cp kubectx   "Kube · switch context"                  ""       popup   "kc"
     __cp dockerup  "Docker · compose up services"           ""       pane    "dup"

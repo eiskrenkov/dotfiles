@@ -59,6 +59,9 @@ keybind = cmd+i=text:\x02i
 # Send ^B + Shift + P on Cmd+Shift+P
 keybind = cmd+shift+p=text:\x02P
 
+# Send ^B + I on Cmd+Shift+I (pop queue dashboard)
+keybind = cmd+shift+i=text:\x02I
+
 # Send ^B + u on Cmd+U
 keybind = cmd+u=text:\x02u
 

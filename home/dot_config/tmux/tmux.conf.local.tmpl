@@ -496,6 +496,11 @@ set -g status-format[1] "#[fg=#8a8a8a,bg=#282c34,align=left] #{S:#{?#{==:#{sessi
 bind-key -r p display-popup -E -w 90% -h 60% "pop select"
 bind-key -r o display-popup -E -w 90% -h 60% "pop worktree --switch"
 bind-key -r i display-popup -E -w 90% -h 60% "pop dashboard"
+# prefix + I (Ghostty cmd+shift+i): the queue counterpart of the agent-pane
+# dashboard above — task-set drains across every registered project. Uppercase I
+# is tpm's stock "install plugins" key, but tpm is unused here (no @plugin lines,
+# see the tpm section below), so the letter is free.
+bind-key -r I display-popup -E -w 90% -h 60% "pop queue dashboard"
 
 {{ if .tds -}}
 # Pair the Cursor editor (left half of the screen) to the active project so it
