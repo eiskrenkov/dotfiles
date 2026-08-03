@@ -1,0 +1,36 @@
+{{ if (eq .chezmoi.os "darwin") -}}
+
+#!/bin/bash
+
+# Sets Finder's default application per document type.
+#
+# Xcode registers itself as the handler for a huge pile of developer-ish UTIs
+# (public.json among them), so on a fresh machine double-clicking a .json in
+# Finder launches Xcode. duti writes a user-level LaunchServices override,
+# which wins over whatever LSHandlerRank an app declares in its Info.plist.
+#
+# Add "<uti> <bundle id>" rows to the table below to manage more types. Find a
+# file's UTI with `mdls -name kMDItemContentType <file>` and an app's bundle id
+# with `osascript -e 'id of app "Name"'`.
+#
+# Runs after the Brewfile script (b < d), so duti is on PATH by this point.
+
+set -euo pipefail
+
+if ! command -v duti >/dev/null 2>&1; then
+	echo "duti not found on PATH; skipping default app associations."
+	exit 0
+fi
+
+echo "Setting default apps..."
+
+while read -r uti bundle; do
+	[ -z "${uti}" ] && continue
+
+	echo "  ${uti} -> ${bundle}"
+	duti -s "${bundle}" "${uti}" all
+done <<-EOF
+	public.json dev.zed.Zed
+EOF
+
+{{ end -}}

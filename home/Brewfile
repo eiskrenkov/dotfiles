@@ -17,6 +17,7 @@ brew "awscli"
 brew "chezmoi"
 brew "cmake"
 brew "direnv"
+brew "duti"                               # sets Finder default apps per file type
 brew "fish"
 brew "fzf"
 brew "git"
