@@ -494,9 +494,11 @@ set -g status-format[1] "#[fg=#8a8a8a,bg=#282c34,align=left] #{S:#{?#{==:#{sessi
 
 # pop — popup pickers that switch the tmux session via switch-client.
 bind-key -r p display-popup -E -w 90% -h 60% "pop select"
+# prefix + o (Ghostty cmd+k): lowercase o stays the worktree picker because
+# prefix + k is oh-my-tmux's select-pane -U and isn't free to take.
 bind-key -r o display-popup -E -w 90% -h 60% "pop worktree --switch"
 bind-key -r i display-popup -E -w 90% -h 60% "pop dashboard"
-# prefix + I (Ghostty cmd+shift+i): the queue counterpart of the agent-pane
+# prefix + I (Ghostty cmd+o): the queue counterpart of the agent-pane
 # dashboard above — task-set drains across every registered project. Uppercase I
 # is tpm's stock "install plugins" key, but tpm is unused here (no @plugin lines,
 # see the tpm section below), so the letter is free.
