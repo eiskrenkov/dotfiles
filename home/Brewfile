@@ -93,7 +93,6 @@ end
 if personal?
   cask "github-copilot-for-xcode"
   cask "sf-symbols"
-  cask "gcloud-cli"
   cask "chromium"
 end
 
