@@ -50,6 +50,9 @@ keybind = cmd+w=text:\x02x
 # Send ^B + p on Cmd+p
 keybind = cmd+p=text:\x02p
 
+# Send ^B + . on Cmd+. (type "commit this" into the pane and submit it)
+keybind = cmd+period=text:\x02.
+
 # Send ^B + I on Cmd+O (pop queue dashboard). The tmux letter is uppercase I
 # (see tmux.conf.local) — only the Cmd key is O, so this is deliberately not a
 # letter-for-letter mapping.

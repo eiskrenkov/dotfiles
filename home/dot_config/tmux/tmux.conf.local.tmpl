@@ -558,7 +558,12 @@ bind U split-window -vb -c "#{pane_current_path}"
 bind L split-window -hb -c "#{pane_current_path}"
 bind c new-window -c "#{pane_current_path}"
 bind & kill-window # Disable confirmation
-bind x kill-pane # Disable confirmation
+# prefix + x (Ghostty cmd+w): close the pane, no confirmation — but a pane
+# running Claude Code gets its own quit chord (Ctrl-C twice) first, so the
+# session exits cleanly instead of being yanked away mid-turn. See
+# scripts/pane-close.sh; backgrounded (-b) because it sleeps while claude tears
+# down.
+bind x run-shell -b "~/.config/tmux/scripts/pane-close.sh '#{pane_id}'"
 
 # Don't exit from tmux when closing a session
 set -g detach-on-destroy off
@@ -620,6 +625,13 @@ bind -N "Open/focus Cursor for the current pane's project" E run-shell -b "~/.co
 # the browser, if it is one. Runs the open-in-github fish function — the exact
 # same code path the command palette invokes, so the two can't drift.
 bind -N "Open the current pane's repo on GitHub" K run-shell -b "fish -c 'open-in-github \"#{pane_current_path}\"'"
+
+# prefix + . (Ghostty cmd+.): type "commit this" into the active pane and submit
+# it — the one instruction handed to a Claude Code pane often enough to deserve a
+# key. Sent as text + Enter, so it works in any pane; scripts/pane-send-prompt.sh
+# explains why the Enter has to arrive as a separate write. Overrides stock tmux's
+# prefix + . (move-window, prompt for an index), which goes unused here.
+bind -N "Send \"commit this\" to the current pane" '.' run-shell -b "~/.config/tmux/scripts/pane-send-prompt.sh '#{pane_id}' 'commit this'"
 
 
 # -- custom variables ----------------------------------------------------------
