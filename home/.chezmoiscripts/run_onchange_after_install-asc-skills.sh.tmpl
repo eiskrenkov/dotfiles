@@ -1,0 +1,27 @@
+{{ if .personal -}}
+#!/bin/bash
+
+# App Store Connect CLI skills, installed via `asc install-skills` instead of as
+# a chezmoi external. Upstream moved the skills into their own repo and the asc
+# binary now pins a reviewed skills commit itself, so the skill pack version is
+# whatever the installed `asc` says it is — pinning a tarball URL here would just
+# fight that.
+#
+# `asc install-skills` git-checks-out the pinned commit and copies the skills
+# into the global agent-skills dir (~/.agents/skills), which is where our other
+# skills live and what ~/.claude/skills symlinks to.
+#
+# The asc version below is the run_onchange trigger: bumping asc (via the
+# Brewfile) changes this line, which re-runs the install so the skills follow.
+#
+# asc version: {{ if lookPath "asc" }}{{ output "asc" "--version" | trim }}{{ else }}not installed{{ end }}
+
+set -euo pipefail
+
+if ! command -v asc >/dev/null 2>&1; then
+	echo "asc not found on PATH; skipping App Store Connect skills install." >&2
+	exit 0
+fi
+
+asc install-skills
+{{- end }}
