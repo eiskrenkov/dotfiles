@@ -37,7 +37,6 @@ brew "gh"
 brew "k6"
 brew "rbspy"
 brew "mysql-client@8.4"
-brew "zellij"
 brew "watchman"
 brew "uv"
 brew "rtk"                                # https://github.com/rtk-ai/rtk
