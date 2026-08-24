@@ -1,0 +1,8 @@
+# Paths chezmoi should delete from the target on apply. Removing a file from
+# the source state alone does NOT delete the live copy — it just stops being
+# managed — so anything retired has to be listed here.
+
+# Retired in favour of pop's own pop-spawn-agent skill, which ships in
+# ~/.local/share/pop/integrations/claude/pane-skills and is symlinked in by
+# `pop integrate claude` (the "pane" entry in [integrations] skills).
+.agents/skills/spawn-agent
