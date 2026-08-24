@@ -504,27 +504,28 @@ bind-key -r i display-popup -E -w 90% -h 60% "pop dashboard"
 # here (no @plugin lines, see the tpm section below), so the letter is free.
 bind-key -r I display-popup -E -w 90% -h 60% "pop work dashboard"
 
-{{ if .tds -}}
-# Pair the Cursor editor (left half of the screen) to the active project so it
+# Pair the GUI editor (left half of the screen) to the active project so it
 # follows when you switch projects with pop. This lives on a hook, not chained
-# off the picker bindings: chaining ran sync-cursor.sh every time the picker
+# off the picker bindings: chaining ran the sync script every time the picker
 # closed — even on Esc with no selection — and before switch-client had resolved
 # the new path. client-session-changed fires only on an *actual* session switch,
 # with #{pane_current_path} already pointing at the new project. Appended at a
 # high index so it coexists with pop's own client-session-changed hook (which
-# clears pane status) rather than clobbering it. Work machine only (.tds).
-# See scripts/sync-cursor.sh.
-set-hook -g 'client-session-changed[100]' "run-shell -b \"~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'\""
-{{ end -}}
+# clears pane status) rather than clobbering it.
+#
+# Installed unconditionally: which editor (Zed, Cursor, …) — and whether this
+# machine pairs one at all — is decided by $GUI_EDITOR, so the script no-ops
+# where that is unset. See scripts/sync-editor.sh.
+set-hook -g 'client-session-changed[100]' "run-shell -b \"~/.config/tmux/scripts/sync-editor.sh '#{pane_current_path}'\""
 
 # prefix + P (Ghostty cmd+shift+p): command palette — an fzf modal listing the
 # rich, easy-to-forget features in these dotfiles (smart checkout, ports, open
-# in Sublime Merge / Cursor, …), sorted by recency of use, with each feature's
-# matching keybind shown. The registry lives in command_palette.fish; selecting
-# a row runs the exact same command/script the feature's keybind would. The
-# palette only *picks*; the dispatcher (started in the background first, since
-# tmux runs commands chained after display-popup immediately rather than on
-# close) waits for the choice, lets the popup close, then runs it — so
+# in Sublime Merge / the GUI editor, …), sorted by recency of use, with each
+# feature's matching keybind shown. The registry lives in command_palette.fish;
+# selecting a row runs the exact same command/script the feature's keybind
+# would. The palette only *picks*; the dispatcher (started in the background
+# first, since tmux runs commands chained after display-popup immediately rather
+# than on close) waits for the choice, lets the popup close, then runs it — so
 # interactive fzf tools and popups never nest inside the palette's own popup.
 bind-key P run-shell -b "~/.config/tmux/scripts/palette-dispatch.sh '#{pane_id}' '#{pane_current_path}'" \; display-popup -E -w 70% -h 70% -d "#{pane_current_path}" "fish -c command_palette"
 
@@ -617,9 +618,10 @@ tmux_conf_uninstall_plugins_on_reload=true
 # the exact same code path the command palette invokes, so the two can't drift.
 bind -N "Open Sublime Merge for the current pane's repo" M run-shell -b "fish -c 'open-in-sublime-merge \"#{pane_current_path}\"'"
 
-# prefix + E (Ghostty cmd+shift+e): open/focus Cursor for the active pane's
-# project — a manual counterpart to the pop-picker sync (same sync-cursor.sh).
-bind -N "Open/focus Cursor for the current pane's project" E run-shell -b "~/.config/tmux/scripts/sync-cursor.sh '#{pane_current_path}'"
+# prefix + E (Ghostty cmd+shift+e): open/focus the $GUI_EDITOR editor for the
+# active pane's project — a manual counterpart to the pop-picker sync (same
+# sync-editor.sh).
+bind -N "Open/focus the GUI editor for the current pane's project" E run-shell -b "~/.config/tmux/scripts/sync-editor.sh '#{pane_current_path}'"
 
 # prefix + K (Ghostty cmd+shift+k): open the active pane's git repo on GitHub in
 # the browser, if it is one. Runs the open-in-github fish function — the exact

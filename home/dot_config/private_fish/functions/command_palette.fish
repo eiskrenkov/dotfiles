@@ -20,6 +20,15 @@ function command_palette --description "fzf modal of dotfile features (tmux pref
     #                       source is a fish function (e.g. open-in-sublime-merge)
     #   command  what actually runs; the single source shared with the keybind
     set -l ids; set -l labels; set -l keys; set -l types; set -l cmds
+    # Display name for the paired GUI editor. Which editor that is is a
+    # per-machine choice ($GUI_EDITOR, set in env.fish), so the label follows it
+    # rather than naming one editor here — same variable sync-editor.sh reads.
+    set -l gui_editor (path basename -- "$GUI_EDITOR")
+    if test -n "$gui_editor"
+        set gui_editor (string upper (string sub -l 1 -- $gui_editor))(string sub -s 2 -- $gui_editor)
+    else
+        set gui_editor "GUI editor"
+    end
     function __cp --no-scope-shadowing
         set -a ids $argv[1]; set -a labels $argv[2]; set -a keys $argv[3]
         set -a types $argv[4]; set -a cmds $argv[5]
@@ -35,7 +44,7 @@ function command_palette --description "fzf modal of dotfile features (tmux pref
     __cp lazygit   "Git · lazygit"                          "⌘G"     popup   "lazygit"
     __cp smerge    "Git · open Sublime Merge for repo"      "⌘⇧M"    func    "open-in-sublime-merge"
     __cp github    "Git · open repo on GitHub"              "⌘⇧K"    func    "open-in-github"
-    __cp cursor    "Editor · open / focus Cursor"           "⌘⇧E"    script  "$HOME/.config/tmux/scripts/sync-cursor.sh"
+    __cp editor    "Editor · open / focus $gui_editor"      "⌘⇧E"    script  "$HOME/.config/tmux/scripts/sync-editor.sh"
     __cp finder    "Finder · reveal current folder"         ""       func    "reveal-in-finder"
     __cp cppath    "Finder · copy current folder path"      ""       func    "copy-current-path"
     __cp cld       "Claude · launch (skip perms)"           ""       pane    "claude-dangerously-skip-permissions"
