@@ -84,6 +84,7 @@ cask "cloudflare-warp"
 cask "slack"
 cask "wispr-flow"
 cask "steam"
+cask "thebrowsercompany-dia"
 # cask "gcloud-cli" if personal?
 
 if tds?
