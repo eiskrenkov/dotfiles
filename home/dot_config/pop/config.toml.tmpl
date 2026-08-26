@@ -16,24 +16,26 @@ disambiguation_strategy = ""
 quick_access_modifier = ""
 
 [project]
-unread_notifications_enabled = true
+unread_notifications_enabled = false
+worktree_display = "nested"
 
 [worktree]
-unread_notifications_enabled = true
+unread_notifications_enabled = false
 
 [effort.claude]
 heavy = [{ model = "opus", reasoning = "xhigh" }]
 standard = [{ model = "opus", reasoning = "high" }]
 light = [{ model = "sonnet", reasoning = "high" }]
 
-[[worktree.commands]]
-key = "ctrl+a"
-label = "new"
-command = "create-worktree"
-exit = true
-
 [dashboard]
 # When you select a pane from the dashboard, pop maximizes (zooms) it within
 # its window. Set this to false to focus the pane in place instead, keeping the
 # window's split layout visible (e.g. an editor above, an agent below).
 zoom_on_switch = false # default is true
+
+[project]
+session_ordering = "live-first"
+
+[work.verify]
+enabled = true
+agents = ["claude --model opus --effort xhigh"]
