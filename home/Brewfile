@@ -10,7 +10,6 @@ def personal? = COMPUTER_NAME == "macbook-pro-personal"
 tap "hashicorp/tap"
 tap "arl/arl"
 tap "jesseduffield/lazygit"
-tap "glebglazov/tap"
 
 # Brews
 brew "awscli"
@@ -40,10 +39,10 @@ brew "mysql-client@8.4"
 brew "watchman"
 brew "uv"
 brew "rtk"                                # https://github.com/rtk-ai/rtk
-brew "glebglazov/tap/pop", args: ["HEAD"] # https://github.com/glebglazov/pop
 brew "opencode"
 brew "libyaml"                            # required for compiling psych by ruby-build
 brew "bundletool" if tds?
+brew "go"
 
 if personal?
   brew "asc"
