@@ -493,7 +493,7 @@ set -g status 2
 set -g status-format[1] "#[fg=#8a8a8a,bg=#282c34,align=left] #{S:#{?#{==:#{session_name},#{client_session}},#[fg=#080808#,bg=#00afff#,bold] #{session_name}#{?#{>:#{session_windows},1},·#{session_windows},} #[default#,fg=#8a8a8a#,bg=#282c34],#[fg=#8a8a8a] #{session_name}#{?#{>:#{session_windows},1},·#{session_windows},} }}"
 
 # pop — popup pickers that switch the tmux session via switch-client.
-bind-key -r p display-popup -E -w 90% -h 60% "pop select"
+bind-key -r p run-shell 'tmux display-popup -E -w 80% -h 80% "pop project --yank-target #{pane_id}"'
 # prefix + o (Ghostty cmd+k): lowercase o stays the worktree picker because
 # prefix + k is oh-my-tmux's select-pane -U and isn't free to take.
 bind-key -r o display-popup -E -w 90% -h 60% "pop worktree --switch"
