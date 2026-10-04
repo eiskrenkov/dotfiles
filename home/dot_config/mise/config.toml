@@ -1,8 +1,8 @@
 [tools]
-ruby = "4.0.2"
+ruby = "4.0.7"
 terraform = "1.9.0"
-pnpm = "9.12.3"
-node = "22.5.1"
+pnpm = "9.15.9"
+node = "26.10.0"
 rust = "1.94.1"
 
 [settings]
