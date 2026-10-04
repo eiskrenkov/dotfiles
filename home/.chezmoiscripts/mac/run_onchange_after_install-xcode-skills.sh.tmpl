@@ -1,0 +1,57 @@
+{{ if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+# Apple's agent skills bundled with Xcode (27+), exported via
+# `xcrun agent skills export` into the global agent-skills dir (~/.agents/skills),
+# which is where our other skills live and what ~/.claude/skills symlinks to.
+# The skills ship with Xcode itself, so the Xcode build is the version pin.
+#
+# Upstream names are generic (swiftui-specialist, modernize-tests, ...), so each
+# one is namespaced as `xcode-<name>`, like the asc-* and matt-* skills.
+#
+# The Xcode build below is the run_onchange trigger: updating (or switching, via
+# xcode-select) Xcode changes this line, which re-exports so the skills follow.
+#
+# Xcode build: {{ output "sh" "-c" "xcodebuild -version 2>/dev/null | tail -n 1 || true" | trim | default "not installed" }}
+
+set -euo pipefail
+
+# Older Xcodes (and a bare Command Line Tools install) don't have the
+# subcommand; skip quietly rather than failing the whole apply.
+if ! xcrun agent skills export --help >/dev/null 2>&1; then
+	echo "xcrun agent skills export unavailable (needs Xcode 27+); skipping Xcode skills export." >&2
+	exit 0
+fi
+
+dir="$HOME/.agents/skills"
+mkdir -p "$dir"
+
+# Export under upstream names into a scratch dir, then move each skill into
+# place prefixed, so unprefixed copies never land in ~/.agents/skills.
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+xcrun agent skills export --output-dir "$tmp"
+
+skills=()
+for path in "$tmp"/*/; do
+	skills+=("$(basename "$path")")
+done
+
+for s in "${skills[@]}"; do
+	# Rewrite the frontmatter `name:` (Claude Code keys the skill off it and
+	# expects it to match the dir).
+	name="$s" perl -pi -e 's{^name:[ \t]*["\x27]?\Q$ENV{name}\E["\x27]?[ \t]*$}{name: xcode-$ENV{name}}' "$tmp/$s/SKILL.md"
+
+	# Rewrite the references between them so the renamed skills still resolve
+	# to each other (e.g. "use the app-intents-whats-new-27 skill"). Upstream
+	# refers to them by bare name, so match on name boundaries; the lookbehind
+	# also stops an already-prefixed name from being prefixed twice.
+	name="$s" find "$tmp" -type f -name '*.md' \
+		-exec perl -pi -e 's{(?<![A-Za-z0-9_-])\Q$ENV{name}\E(?![A-Za-z0-9_-])}{xcode-$ENV{name}}g' {} +
+done
+
+for s in "${skills[@]}"; do
+	rm -rf "${dir:?}/xcode-$s"
+	mv "$tmp/$s" "$dir/xcode-$s"
+done
+{{ end -}}

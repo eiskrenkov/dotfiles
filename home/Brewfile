@@ -48,7 +48,7 @@ if personal?
   brew "asc"
   brew "swiftlint"
   # brew "odnoletkov/tap/xcodeproj-format"
-  brew "xcodesorg/made/xcodes"
+  # brew "xcodesorg/made/xcodes"
   brew "duckdb"
 end
 
@@ -81,7 +81,7 @@ cask "claude"
 cask "cloudflare-warp"
 cask "slack"
 cask "wispr-flow"
-cask "steam"
+# cask "steam"
 cask "thebrowsercompany-dia"
 # cask "gcloud-cli" if personal?
 
