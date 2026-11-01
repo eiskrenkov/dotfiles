@@ -13,6 +13,14 @@
 # file's UTI with `mdls -name kMDItemContentType <file>` and an app's bundle id
 # with `osascript -e 'id of app "Name"'`.
 #
+# Only *declared* UTIs can be managed here. An extension nothing on the system
+# claims (.jsonl, .env, .fish, .rs, …) resolves to a synthesized `dyn.…` type,
+# and LaunchServices refuses to bind a handler to those — duti reports
+# "error -50". Such extensions have to be set per-file via Finder's Get Info,
+# or by installing an app that exports a real UTI for them. Zed lists many of
+# them in CFBundleTypeExtensions, which already makes it the fallback opener
+# when no other app claims the extension.
+#
 # Runs after the Brewfile script (b < d), so duti is on PATH by this point.
 
 set -euo pipefail
@@ -25,12 +33,47 @@ fi
 echo "Setting default apps..."
 
 while read -r uti bundle; do
-	[ -z "${uti}" ] && continue
+	case "${uti}" in '' | '#'*) continue ;; esac
 
 	echo "  ${uti} -> ${bundle}"
-	duti -s "${bundle}" "${uti}" all
+	# Never let one unbindable type abort the whole apply.
+	duti -s "${bundle}" "${uti}" all || echo "    warning: could not set ${uti}, skipping"
 done <<-EOF
+	# Plain text. public.text and public.source-code are abstract parents and
+	# act as the catch-all for text types not named explicitly below.
+	public.text dev.zed.Zed
+	public.plain-text dev.zed.Zed
+	public.utf8-plain-text dev.zed.Zed
+	public.source-code dev.zed.Zed
+	public.log dev.zed.Zed
+	com.apple.log dev.zed.Zed
+	net.daringfireball.markdown dev.zed.Zed
+	public.patch-file dev.zed.Zed
+
+	# Structured data / config
 	public.json dev.zed.Zed
+	public.ndjson dev.zed.Zed
+	public.yaml dev.zed.Zed
+	public.toml dev.zed.Zed
+	public.xml dev.zed.Zed
+	com.microsoft.ini dev.zed.Zed
+	com.apple.property-list dev.zed.Zed
+	public.comma-separated-values-text dev.zed.Zed
+	public.tab-separated-values-text dev.zed.Zed
+
+	# Scripts and source
+	public.shell-script dev.zed.Zed
+	public.bash-script dev.zed.Zed
+	public.zsh-script dev.zed.Zed
+	public.python-script dev.zed.Zed
+	public.ruby-script dev.zed.Zed
+	public.perl-script dev.zed.Zed
+	public.php-script dev.zed.Zed
+	public.make-source dev.zed.Zed
+	org.iso.sql dev.zed.Zed
+	public.css dev.zed.Zed
+	com.netscape.javascript-source dev.zed.Zed
+	com.microsoft.typescript dev.zed.Zed
 EOF
 
 {{ end -}}
