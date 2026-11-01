@@ -190,7 +190,7 @@ tmux_conf_theme_mode_attr="bold"
 # fg of the powerline window separators (the  triangles): with bg=default those
 # triangles resolve to the terminal *foreground* and render as mismatched blocks;
 # with a concrete colour they blend. If you change Ghostty's theme, update this
-# (and the two matching bg=#282c34 in status-format[1] below) to the new bg.
+# to the new bg.
 tmux_conf_theme_status_fg="$tmux_conf_theme_colour_3"
 tmux_conf_theme_status_bg="#282c34"
 tmux_conf_theme_status_attr="none"
@@ -309,10 +309,8 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{username}
 #     - #{username_ssh}
 # Left status is empty: the git branch lives on each pane's label chip (see
-# conf.d/pane_label.fish) and the session name now lives on the second status
-# line, highlighted within the full session list (see status-format[1] in the
-# user customizations section), so there's nothing left for the left chip to
-# carry.
+# conf.d/pane_label.fish) and the session name lives in Muxify's header and
+# sidebar, so there's nothing left for the left chip to carry.
 tmux_conf_theme_status_left=""
 # Right status is intentionally empty — the hostname (#{hostname}) added nothing
 # on a single-machine setup and just took up space.
@@ -472,25 +470,12 @@ set-hook -g after-split-window "run-shell -b \"~/.config/tmux/scripts/pane-color
 set -g focus-events on
 set-hook -g pane-focus-in "run-shell -b \"~/.config/tmux/scripts/claude-notify-clear.sh '#{pane_id}'\""
 
-# -- second status line: all sessions ----------------------------------------
-# A row beneath the window list that lists every session the way the row above
-# lists windows. With status-position at the bottom (the default), status-format[0]
-# is the existing windows line and status-format[1] renders directly below it.
-# Oh my tmux!'s apply logic only sets status-left/right and window-status-*, never
-# the line count or status-format, so this survives a reload.
-#
-# #{S:...} (tmux >= 3.0) loops over every session. The attached session is
-# highlighted like the current window — dark text on the blue chip (colour_4
-# #00afff) — and the rest are muted grey (colour_3 #8a8a8a) on the Ghostty
-# default bg (#282c34), matching the first line. #{client_session} is the
-# session the *rendering* client is
-# on, so the highlight stays correct per client. "·N" appends the window count
-# when a session has more than one, mirroring the " +N" pane count on the window
-# row above. Commas inside #{?...} are escaped as #, since comma is its argument
-# separator; colours are literal hex because the $tmux_conf_theme_colour_N shell
-# vars aren't in scope for raw tmux commands (same as pane-border-format above).
-set -g status 2
-set -g status-format[1] "#[fg=#8a8a8a,bg=#282c34,align=left] #{S:#{?#{==:#{session_name},#{client_session}},#[fg=#080808#,bg=#00afff#,bold] #{session_name}#{?#{>:#{session_windows},1},·#{session_windows},} #[default#,fg=#8a8a8a#,bg=#282c34],#[fg=#8a8a8a] #{session_name}#{?#{>:#{session_windows},1},·#{session_windows},} }}"
+# -- no status line ------------------------------------------------------------
+# Muxify's header shows the session and its window selector, and its sidebar
+# lists every session and window, so tmux's own bar would only repeat them.
+# Oh my tmux! never sets `status`, so this survives a reload. The theme's
+# status-* settings above still apply if this is ever turned back on.
+set -g status off
 
 # pop — popup pickers that switch the tmux session via switch-client.
 bind-key -r p run-shell 'tmux display-popup -E -w 80% -h 80% "pop project --yank-target #{pane_id}"'
@@ -516,7 +501,12 @@ bind-key -r I display-popup -E -w 90% -h 60% "pop work dashboard"
 # Installed unconditionally: which editor (Zed, Cursor, …) — and whether this
 # machine pairs one at all — is decided by $GUI_EDITOR, so the script no-ops
 # where that is unset. See scripts/sync-editor.sh.
-set-hook -g 'client-session-changed[100]' "run-shell -b \"~/.config/tmux/scripts/sync-editor.sh '#{pane_current_path}'\""
+#
+# Disabled for now (Muxify covers the screen, so the editor isn't beside the
+# terminal to follow along). -u rather than deleting the line so a reload also
+# drops the hook from a running server; to re-enable, restore:
+#   set-hook -g 'client-session-changed[100]' "run-shell -b \"~/.config/tmux/scripts/sync-editor.sh '#{pane_current_path}'\""
+set-hook -gu 'client-session-changed[100]'
 
 # prefix + P (Ghostty cmd+shift+p): command palette — an fzf modal listing the
 # rich, easy-to-forget features in these dotfiles (smart checkout, ports, open
@@ -618,10 +608,10 @@ tmux_conf_uninstall_plugins_on_reload=true
 # the exact same code path the command palette invokes, so the two can't drift.
 bind -N "Open Sublime Merge for the current pane's repo" M run-shell -b "fish -c 'open-in-sublime-merge \"#{pane_current_path}\"'"
 
-# prefix + E (Ghostty cmd+shift+e): open/focus the $GUI_EDITOR editor for the
-# active pane's project — a manual counterpart to the pop-picker sync (same
-# sync-editor.sh).
-bind -N "Open/focus the GUI editor for the current pane's project" E run-shell -b "~/.config/tmux/scripts/sync-editor.sh '#{pane_current_path}'"
+# prefix + E (Ghostty/Muxify cmd+shift+e): open the $GUI_EDITOR editor for the
+# active pane's project and bring it to the front — a manual counterpart to the
+# background sync on session switch (same sync-editor.sh, with --focus).
+bind -N "Open/focus the GUI editor for the current pane's project" E run-shell -b "~/.config/tmux/scripts/sync-editor.sh --focus '#{pane_current_path}'"
 
 # prefix + K (Ghostty cmd+shift+k): open the active pane's git repo on GitHub in
 # the browser, if it is one. Runs the open-in-github fish function — the exact

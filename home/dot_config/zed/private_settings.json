@@ -7,6 +7,11 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "restore_on_startup": "empty_tab",
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "reveal_if_open": true,
   "cli_default_open_behavior": "existing_window",
   "disable_ai": true,
   "project_panel": {
@@ -58,6 +63,7 @@
     "show_diagnostics": "all"
   },
   "tab_bar": {
+    "show_pinned_tabs_in_separate_row": false,
     "show": true,
     "show_nav_history_buttons": true,
     "show_tab_bar_buttons": false

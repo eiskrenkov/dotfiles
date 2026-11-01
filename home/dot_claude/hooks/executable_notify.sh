@@ -4,7 +4,7 @@
 # Hands the attention event to Hammerspoon via its URL scheme. Hammerspoon (see
 # ~/.hammerspoon/init.lua) shows a native notification whose subtitle is the tmux
 # session name, and whose click callback switches tmux to the pane that fired and
-# raises Ghostty — all native arm64, no deprecated dependencies.
+# raises Muxify — all native arm64, no deprecated dependencies.
 #
 # The tmux session/pane and the message are passed as URL query params, URL-encoded
 # with jq's @uri. If jq is missing, or Hammerspoon isn't installed (so nothing

@@ -114,7 +114,8 @@ function create-worktree --description "Create a new git worktree with fzf branc
         zoxide-index &>/dev/null &
     end
 
-    # Hand off to pop: derives the session name, creates/attaches the tmux
-    # session, and records the path in project history
-    pop project switch "$abs_path"
+    # Hand off to Muxify: makes a session there named like its Go to… row
+    # (<repo>/<folder> for a worktree), then switches the app to its window
+    set -l window (muxify session new "$abs_path")
+    and muxify window open --window $window
 end

@@ -4,7 +4,7 @@
 -- (~/.claude/hooks/notify.sh) opens a URL like
 --   hammerspoon://claude-notify?session=<name>&pane=<%id>&message=<text>
 -- and this handler shows a native notification tagged with the tmux session.
--- Clicking it switches tmux to the exact pane and raises Ghostty.
+-- Clicking it shows the exact pane in Muxify and raises Muxify.
 --
 -- The notice is also withdrawn when you reach the pane *without* clicking it: a
 -- tmux pane-focus-in hook opens hammerspoon://claude-clear?pane=<%id> whenever a
@@ -12,22 +12,24 @@
 -- navigating to the pane in tmux dismisses its notification too.
 
 local TMUX = "/opt/homebrew/bin/tmux"
+local MUXIFY = os.getenv("HOME") .. "/.local/bin/muxify"
 
 -- Single-quote a value for safe embedding in a /bin/sh command.
 local function shq(s)
   return "'" .. tostring(s):gsub("'", "'\\''") .. "'"
 end
 
--- Focus a tmux pane by id: point the attached client at its session, select the
--- window and the pane (a pane id resolves its own window/session), then raise
--- Ghostty. Absolute tmux path since hs.execute runs with a minimal environment.
-local function focusPane(session, pane)
+-- Focus a tmux pane by id: make it its window's active pane, have Muxify show
+-- that window (switching its client to the pane's session), then raise Muxify.
+-- Absolute paths and an explicit PATH (the muxify CLI shells out to tmux) since
+-- hs.execute runs with a minimal environment.
+local function focusPane(pane)
   if pane and pane ~= "" then
     hs.execute(string.format(
-      "%s switch-client -t %s; %s select-window -t %s; %s select-pane -t %s",
-      TMUX, shq(session), TMUX, shq(pane), TMUX, shq(pane)), false)
+      "PATH=/opt/homebrew/bin:$PATH; %s select-pane -t %s; %s window open --pane %s",
+      TMUX, shq(pane), MUXIFY, shq(pane)), false)
   end
-  hs.application.launchOrFocus("Ghostty")
+  hs.application.launchOrFocus("Muxify")
 end
 
 -- Pending attention notifications, keyed by tmux pane id (e.g. "%5"), so a later
@@ -55,7 +57,7 @@ hs.urlevent.bind("claude-notify", function(_, params)
 
   local n = hs.notify.new(function()
     clearPane(pane)
-    focusPane(session, pane)
+    focusPane(pane)
   end, {
     title = "Claude Code",
     subTitle = session,

@@ -1,0 +1,48 @@
+# Muxify — native macOS tmux app (~/dev/muxify, docs/configuration.md).
+#
+# Replaces pop as the project switcher. The embedded terminal still reads
+# ~/.config/ghostty/config, but Muxify's keybindings act *before* Ghostty's: a
+# key bound here wins over a cmd+… → tmux binding there. Where they collide,
+# each choice below says which side keeps the key.
+
+# Same roots as pop's `projects` (see ~/.config/pop/config.toml). Order matters:
+# ~/dev is itself a git repo, and Muxify drops any folder inside a repository it
+# has already found, so ~/dev/* must come before ~/dev or its projects vanish.
+# A Worktree is a row of its repo, named <repo>/<folder> — the old pop
+# worktree picker (cmd+k) lives in the same palette now.
+sessions:
+  paths:
+    - path: ~/.local/share/chezmoi
+    - path: ~/dev/*
+    - path: ~/dev
+{{- if .tds }}
+    - path: ~/tds/*
+    - path: ~/tds
+{{- end }}
+
+command_palettes:
+  # pop project (cmd+p) and pop worktree (cmd+k). Sessions only, like pop:
+  # running Sessions first (live-first), then Session Paths not running yet.
+  # ⌃Y pastes the highlighted folder into the pane, like pop's --yank-target.
+  - name: Go to…
+    keybinding: [cmd+p, cmd+k]
+    sources: [sessions]
+  # pop dashboard (cmd+i): Agents needing you first, then working ones.
+  - name: Agents
+    keybinding: cmd+i
+    sources: [agents]
+  # Takes cmd+shift+p over from the fish command palette, which stays on
+  # prefix + P.
+  - name: Commands
+    keybinding: cmd+shift+p
+    sources: [commands]
+
+keybindings:
+  # Takes cmd+g over from lazygit, which stays on prefix + g. This is Muxify's
+  # default too; spelled out so the choice is visible.
+  toggle_git_view: cmd+g
+  # Defaults that would shadow Ghostty → tmux bindings:
+  mark_read: alt+cmd+r          # cmd+shift+r splits right (prefix + %)
+  mark_unread: alt+cmd+u        # cmd+shift+u splits up (prefix + U)
+  move_session: alt+cmd+m       # cmd+shift+m opens Sublime Merge (prefix + M)
+  toggle_maximize: alt+cmd+enter # cmd+shift+enter zooms the tmux pane (prefix + z)
