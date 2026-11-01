@@ -18,6 +18,22 @@
 # still receives the open-folder event and selects the matching project (a
 # native tab in Cursor, a workspace window in Zed), but macOS does not bring it
 # to the foreground, so the switch happens behind Ghostty.
+#
+# `--focus` (prefix + E, Muxify/Ghostty cmd+shift+e) is the exception: asking
+# for the editor by hand means wanting to look at it, and with the terminal
+# covering most of the screen a background switch would be invisible. Focus
+# stealing is then wanted, so it goes through the editor CLI instead of `open`:
+# only the CLI honours the editor's own "where do opened folders go" setting.
+# Zed in particular treats a LaunchServices open-folder event as "new window"
+# regardless of config, while `zed <dir>` respects cli_default_open_behavior
+# (existing_window → the project joins the current window). Cursor's CLI
+# follows openFoldersInNewWindow + nativeTabs, landing in a native tab as before.
+
+focus=
+if [ "$1" = --focus ]; then
+    focus=1
+    shift
+fi
 
 dir="$1"
 [ -n "$dir" ] && [ -d "$dir" ] || exit 0
@@ -51,6 +67,22 @@ esac
 # the one project/worktree tab; fall back to the directory itself otherwise.
 root=$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null) || root="$dir"
 [ -n "$root" ] || root="$dir"
+
+# $HOME and ~/dev are containers, not projects — never open the whole tree in
+# the editor. ~/dev is itself a git repo, so a non-repo folder under it would
+# resolve to ~/dev above; fall back to the folder itself in that case, and only
+# bail when we're sitting at the container directly.
+is_container() {
+    case "${1%/}" in "$HOME" | "$HOME/dev") return 0 ;; esac
+    return 1
+}
+is_container "$root" && root="$dir"
+is_container "$root" && exit 0
+
+if [ -n "$focus" ]; then
+    "$bin" "$root"
+    exit
+fi
 
 # -g: don't foreground the editor. -a "$app": route to that editor specifically
 # (not whatever is registered for the folder). This deliberately avoids the
