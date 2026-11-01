@@ -11,10 +11,11 @@
 # ~/.agents/skills. No lockfile is written for global installs.
 #
 # The CLI has no dependency resolution, so every skill is listed explicitly: the
-# four user-invoked skills plus the model-invoked ones they reach for via
-# `/skill` prose (grill-with-docs -> grilling, domain-modeling; implement -> tdd,
-# code-review; improve-codebase-architecture -> codebase-design; wayfinder ->
-# prototype). grill-me and handoff are kept from the old external set.
+# user-invoked skills plus the model-invoked ones they reach for
+# (grill-with-docs -> grilling, domain-modeling; implement, implement-spec ->
+# tdd, code-review; improve-codebase-architecture -> codebase-design; wayfinder
+# -> prototype, research; retro -> writing-for-agents). pr is model-invoked and
+# stands alone. grill-me and handoff are kept from the old external set.
 #
 # The CLI can't namespace on install, so everything is prefixed with `matt-`
 # after the fact (see the rename step below). This groups them in the skill list
@@ -29,14 +30,19 @@ set -euo pipefail
 skills=(
   grill-with-docs
   implement
+  implement-spec
   improve-codebase-architecture
   wayfinder
+  retro
+  pr
   grilling
   domain-modeling
   tdd
   code-review
   codebase-design
   prototype
+  research
+  writing-for-agents
   handoff
   grill-me
 )
@@ -50,7 +56,7 @@ fi
 add_args=()
 for s in "${skills[@]}"; do add_args+=(--skill "$s"); done
 npx --yes skills@latest add \
-  "https://github.com/mattpocock/skills/tree/v1.1.0" \
+  "https://github.com/mattpocock/skills/tree/v1.3.1" \
   --global --agent claude-code --yes \
   "${add_args[@]}"
 
@@ -65,11 +71,24 @@ for s in "${skills[@]}"; do
   name="$s" perl -pi -e 's{^name:[ \t]*["\x27]?\Q$ENV{name}\E["\x27]?[ \t]*$}{name: matt-$ENV{name}}' "$dir/matt-$s/SKILL.md"
 done
 
-# Rewrite the `/skill` prose references between them so the renamed skills still
-# resolve to each other (e.g. grill-with-docs's "/grilling" -> "/matt-grilling").
-# Only names we installed are rewritten; pointers to uninstalled skills are left
-# alone. The negative lookahead keeps prefixes distinct (/grill-me vs /grill-*).
+# Rewrite the references between them so the renamed skills still resolve to
+# each other. Upstream names a dependency as `Call the Skill tool with "grilling"`
+# (or `tdd` in backticks) since v1.3.0, and as `/grilling` prose before that and
+# in a few places still, so all three spellings are rewritten:
+# "grilling" -> "matt-grilling", `tdd` -> `matt-tdd`, /tdd -> /matt-tdd. Only names
+# we installed are rewritten; pointers to uninstalled skills are left alone. The
+# lookarounds keep prefixes distinct (/grill-me vs /grill-*) and leave paths like
+# skills/engineering/tdd/ alone. A quoted name is only a skill reference as a
+# "double-quoted" name on a "Skill tool" line, a `backticked` one straight after
+# "Skill tool with", or either right before the word "skill". Elsewhere it is
+# something else (wayfinder's `research`/`prototype` ticket labels), so it stays.
 for s in "${skills[@]}"; do
   name="$s" find "$dir" -type f -name '*.md' -path '*/matt-*/*' \
-    -exec perl -pi -e 's{/\Q$ENV{name}\E(?![A-Za-z0-9_-])}{/matt-$ENV{name}}g' {} +
+    -exec perl -pi -e '
+      my $n = quotemeta $ENV{name}; my $m = "matt-$ENV{name}";
+      s{(?<![A-Za-z0-9_.-])/$n(?![A-Za-z0-9_/-])}{/$m}g;
+      s{"$n"}{"$m"}g if /Skill tool/;
+      s{(Skill tool with )`$n`}{$1`$m`}g;
+      s{(["`])$n\1(?=\s+skill\b)}{$1$m$1}g;
+    ' {} +
 done
