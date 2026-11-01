@@ -10,6 +10,8 @@ def personal? = COMPUTER_NAME == "macbook-pro-personal"
 tap "hashicorp/tap"
 tap "arl/arl"
 tap "jesseduffield/lazygit"
+tap "glebglazov/tap"
+tap "mantrakp04/tap"
 
 # Brews
 brew "awscli"
@@ -83,6 +85,7 @@ cask "slack"
 cask "wispr-flow"
 # cask "steam"
 cask "thebrowsercompany-dia"
+cask "mantrakp04/tap/ardia"
 # cask "gcloud-cli" if personal?
 
 if tds?
